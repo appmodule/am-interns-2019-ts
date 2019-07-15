@@ -1,0 +1,19 @@
+{
+  "name": "am-interns-2019-ts",
+  "version": "1.0.0",
+  "description": "Time Shift summer internship program",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appmodule/am-interns-2019-ts.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/appmodule/am-interns-2019-ts/issues"
+  },
+  "homepage": "https://github.com/appmodule/am-interns-2019-ts#readme"
+}
