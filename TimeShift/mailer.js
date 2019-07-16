@@ -1,18 +1,19 @@
-
     var nodemailer = require('nodemailer');
+
+    const mail_user = process.env.MAIL_USER
 
     var transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
-    }
+        auth: {
+            user: mail_user,
+            pass: process.env.MAIL_PASS
+        }
     });
-    var ime = "appmodule";
+
     module.exports.send = function(rcp,subject,text)
     {
         var mailOptions = {
-        from: '***REMOVED***',
+        from: mail_user,
         to: rcp,
         subject: subject,
         text: text 
