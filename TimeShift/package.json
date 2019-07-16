@@ -10,6 +10,7 @@
   "dependencies": {
     "connect": "^3.3.5",
     "dotenv": "^8.0.0",
+    "nodemailer": "^6.3.0",
     "pg": "^7.11.0",
     "swagger-connect": "^0.1.0"
   },

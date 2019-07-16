@@ -4,8 +4,8 @@
     var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: '***REMOVED***',
-        pass: '***REMOVED***'
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
     }
     });
     var ime = "appmodule";
