@@ -46,7 +46,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: channel
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns specified channel to the caller
       # used as the method name of the controller
       operationId: getChannel
       parameters:
@@ -65,27 +65,60 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    post:
-      description: Returns 'Hello' to the caller
+    delete:
+      description: Delete channel with specified id
       # used as the method name of the controller
-      operationId: addChannel
+      operationId: deleteChannel
       parameters:
-        - name: name
-          in: formData
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
-        - name: url
-          in: formData
-          description: The name of the person to whom to say hello
+        - name: id
+          in: query
+          description: Id of the channel we are trying to delete
           required: false
           type: string
       responses:
         "200":
           description: Success
+          schema: {}
+         
+        # responses may fall through to errors
+        default:
+          description: Error
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Adds a channel
+      # used as the method name of the controller
+      operationId: addChannel
+      parameters:
+        - name: uri
+          in: formData
+          description: The uri of the channel 
+          required: false
+          type: string
+        - name: number_failed
+          in: formData
+          description: The number of failed chunks for that channel
+          required: false
+          type: string
+        - name: number_succeded
+          in: formData
+          description: The number of succeded chunks for this channel
+          required: false
+          type: string
+        - name: hours_to_record
+          in: formData
+          description: How many hours this channel should be recorded
+          required: false
+          type: string
+        - name: name
+          in: formData
+          description: Name of the channel
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
         # responses may fall through to errors
         default:
           description: Error

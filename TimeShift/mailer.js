@@ -1,19 +1,19 @@
     var nodemailer = require('nodemailer');
-
-    const mail_user = process.env.MAIL_USER
-
+    require('dotenv').config()
+    //const mail_user = process.env.MAIL_USER
+    const env = process.env;
     var transporter = nodemailer.createTransport({
     service: 'gmail',
         auth: {
-            user: mail_user,
-            pass: process.env.MAIL_PASS
+            user: env.MAIL_USER,
+            pass: env.MAIL_PASS
         }
     });
 
     module.exports.send = function(rcp,subject,text)
     {
         var mailOptions = {
-        from: mail_user,
+        from: env.MAIL_USER,
         to: rcp,
         subject: subject,
         text: text 
@@ -28,5 +28,5 @@
         });
     };
 
-/*const sender = require('./mailer.js');
-sender.send("dragana.stojnev@gmail.com","subject","text");*/
+const sender = require('./mailer.js');
+sender.send("dragana.stojnev@gmail.com","subject","text");
