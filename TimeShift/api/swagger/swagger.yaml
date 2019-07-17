@@ -124,6 +124,63 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /saved_chunks:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: saved_chunks
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: getChunk
+      parameters:
+        - name: id
+          in: query
+          description: The id of the chunk 
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+         
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: addChunk
+      parameters:
+        - name: channel_id
+          in: formData
+          description: The id of channel 
+          required: false
+          type: string
+        - name: variant_id
+          in: formData
+          description: The id of variant 
+          required: false
+          type: string
+        - name: timestamp
+          in: formData
+          description: The timestamp
+          required: false
+          type: string
+        - name: filepath
+          in: formData
+          description: The filepath
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
