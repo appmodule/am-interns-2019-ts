@@ -1,4 +1,5 @@
 const { Pool } = require('pg')
+
 const env = process.env
 const pool = new Pool({
   user: env.PGUSER,

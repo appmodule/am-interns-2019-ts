@@ -181,6 +181,58 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /variants:
+    x-swagger-router-controller: variants
+    get:
+      description: Returns the list of variants belonging to a channel
+      operationId: getVariants
+      parameters:
+        - name: channel_id
+          in: query
+          description: The id of the channel
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: Add a new variant to a channel
+      operationId: addVariant
+      parameters:
+        - name: channel_id
+          in: formData
+          description: The id of the channel
+          required: true
+          type: integer
+        - name: uri
+          in: formData
+          description: URI of the media playlist for this variant
+          required: true
+          type: string
+          format: uri
+        - name: bandwidth
+          in: formData
+          description: The bandwidth in bits per second for this variant
+          required: true
+          type: integer
+        - name: codecs
+          in: formData
+          description: The codecs for this variant
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
