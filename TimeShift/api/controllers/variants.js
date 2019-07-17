@@ -5,7 +5,8 @@ const db = require('../database')
 
 module.exports = {
     getVariants: getVariants,
-    addVariant: addVariant
+    addVariant: addVariant,
+    updateVariantFlag: updateVariantFlag
 };
 
 function getVariants(req, httpRes, next) {
@@ -31,3 +32,21 @@ function addVariant(req, httpRes, next) {
         next(dbErr)
     })
   }
+  
+function updateVariantFlag(req, res1) {
+// variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
+var id = req.swagger.params.id.value;
+var flag = req.swagger.params.flag.value;
+
+const db = require('../database')
+
+    db.query('UPDATE variants SET flag=$1 WHERE id=$2', [flag,id], (err, res) => {
+        if (err) {
+        return err
+        }
+        res1.json(res.rows[0])
+    })
+//res.json(hello);
+}
+
+  
