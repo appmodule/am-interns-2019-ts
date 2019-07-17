@@ -152,11 +152,6 @@ paths:
       # used as the method name of the controller
       operationId: addChunk
       parameters:
-        - name: channel_id
-          in: formData
-          description: The id of channel 
-          required: false
-          type: string
         - name: variant_id
           in: formData
           description: The id of variant 
@@ -181,6 +176,29 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: updateChunkFlag
+      parameters:
+        - name: id
+          in: formData
+          description: The id of the chunk 
+          required: false
+          type: string
+        - name: flag
+          in: formData
+          description: The id of the chunk 
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /variants:
     x-swagger-router-controller: variants
     get:
@@ -200,6 +218,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+    
     post:
       description: Add a new variant to a channel
       operationId: addVariant
@@ -222,7 +241,29 @@ paths:
           type: integer
         - name: codecs
           in: formData
+          type: string
           description: The codecs for this variant
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: updateVariantFlag
+      parameters:
+        - name: id
+          in: formData
+          description: The id of the chunk 
+          required: false
+          type: string
+        - name: flag
+          in: formData
+          description: The id of the chunk 
           required: false
           type: string
       responses:
