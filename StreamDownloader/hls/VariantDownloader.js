@@ -18,10 +18,17 @@ function VariantDownloader(variant) {
             console.log(`Variant #${this.variant.id} Segment #${segment.mediaSequenceNumber}: duration = ${segment.duration}, byte length = ${segment.data.length}`);
             let extension = extname(segment.uri)
             let filename = segment.mediaSequenceNumber
-            if (extension) 
-                filename = filename + "." + extension
+            
+            filename = filename + extension
             let path = this.dir + filename
             fs.createWriteStream(path).write(segment.data)
+
+            var chunk = {variant_id: variant.id,filepath: path,duration: segment.duration, timestamp: segment.programDateTime}
+            
+            const addChunk = require('../database/saved_chunks.js').addChunk
+            addChunk(chunk)
+
+    
         }
     })
     .on('end', () => {
