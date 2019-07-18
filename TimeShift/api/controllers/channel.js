@@ -8,63 +8,17 @@ module.exports = {
 
 function getChannel(req, res1)
 {
-    var id = req.swagger.params.id.value || 'stranger';
-
+    var channelId = req.swagger.params.channelId.value || 'stranger';
     const db = require('../database')
-    const fs = require('fs')
-    fs.appendFile('./playlist.txt', '#EXTM3U\r\n', function (err) {
-      if (err) throw err;
-    });
-    
-        let variant = null;
-    
-        db.query('SELECT * FROM channels WHERE id = $1', [id], (err, res) => {
-            if (err) 
-            {
-            return err
-            }
-            var channel = res.rows[0];
-
-            db.query('SELECT * FROM variants WHERE channel_id = $1',[channel.id],(err,res)=>
-            {
-              if (err)
-              {
-                return err
-              }
-              variant = res.rows[0];              
-            })
-
-            let variantId = res.rows[0].id;// kako ovde da korisnik odabere
-
-            fs.appendFile('./playlist.txt', '#EXT-X-VERSION:'+variantId+"\r\n", function (err)
-            {
-              if (err) throw err;
-            });
-            
-            db.query('SELECT * FROM saved_chunks WHERE variant_id = $1 order by timestamp asc',[variantId],(err,res)=>
-            {
-              if (err)
-              {
-                return err
-              }
-              var chunks = res.rows
-              res1.json(res.rows)
-              const fs = require('fs')
-
-              chunks.forEach(element => 
-              {
-                let toAppend = "#EXT-X-STREAM-INF:BANDWIDTH="+variant.bandwidth+",CODECS='"+variant.codecs+"'"+element.filepath+"\r\n";
-                fs.appendFile('./playlist.txt', toAppend, function (err) 
-                {
-                  if (err) throw err;
-                });
-                
-              //res1.end('./playlist.txt');
-              });
-              
-            })
-        })
-  }
+    db.query('SELECT * FROM channels WHERE id = $1', [channelId], (err, res) => 
+    {
+        if (err) 
+        {
+        return err
+        }
+        res1.json(res.rows[0])
+    })
+}
 
   function addChannel(req,res1){
 
@@ -94,5 +48,5 @@ function getChannel(req, res1)
         return err
       }
       res1.json(res.rows[0])
-  })
-}
+    })
+  }

@@ -17,6 +17,7 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+  - text/plain
 paths:
   /hello:
     # binds a127 app logic to a route
@@ -42,6 +43,72 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /timeShift/channels:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: timeShift
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: getChannelFromTo
+      parameters:
+        - name: channelId
+          in: query
+          description: Id of wanted channel
+          required: false
+          type: string
+        - name: from
+          in: query
+          description: Start point for downloading
+          required: false
+          type: string
+        - name: to
+          in: query
+          description: End point for downloading
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /timeShift/variant:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: timeShift
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: getSelectedVariantFromTo
+      parameters:
+        - name: variantId
+          in: query
+          description: Id of wanted variant
+          required: false
+          type: string
+        - name: from
+          in: query
+          description: requested recording start point
+          required: false
+          type: string
+        - name: to
+          in: query
+          description: requested recording end point
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /channels:
     # binds a127 app logic to a route
     x-swagger-router-controller: channel
@@ -50,15 +117,16 @@ paths:
       # used as the method name of the controller
       operationId: getChannel
       parameters:
-        - name: id
+        - name: channelId
           in: query
-          description: The name of the person to whom to say hello
+          description: The channel id that is used for downloading
           required: false
           type: string
       responses:
         "200":
           description: Success
-          schema: {}
+          schema:
+            type: string
          
         # responses may fall through to errors
         default:
