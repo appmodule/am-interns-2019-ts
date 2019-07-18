@@ -155,36 +155,23 @@ paths:
         - name: variant_id
           in: formData
           description: The id of variant 
-          required: false
-          type: string
+          required: true
+          type: integer
         - name: filepath
           in: formData
           description: The filepath
-          required: false
+          required: true
           type: string
+        - name: duration
+          in: formData
+          description: Duration of the chunk
+          required: true
+          type: number
       responses:
         "200":
           description: Success
           schema: {}
         # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    put:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: updateChunkFlag
-      parameters:
-        - name: id
-          in: formData
-          description: The id of the chunk 
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
         default:
           description: Error
           schema:
@@ -263,15 +250,20 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
     put:
-      description: Returns 'Hello' to the caller
+      description: Control whether the variant is disabled
       # used as the method name of the controller
       operationId: updateVariantFlag
       parameters:
         - name: id
           in: formData
           description: The id of the chunk 
+          required: true
+          type: integer
+        - name: disabled
+          in: formData
+          description: If true the variant will be disabled. (not downloaded)
           required: false
-          type: string
+          type: boolean
       responses:
         "200":
           description: Success
