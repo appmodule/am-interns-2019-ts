@@ -45,24 +45,6 @@ function updateVariantFlag(req, httpRes, next) {
         }
         httpRes.json("success")
     })
-    /*
-var variant = null;
-db.query('SELECT * FROM variants WHERE id = $1', [id], (err, res) => {
-    if (err) {
-    return err
-    }
-    res1.json(res.rows[0])
-    variant = res.rows[0]
-
-    db.query('UPDATE variants SET id=$1,flag=$2,channel_id=$3,uri=$4,bandwidth=$5,codecs=$6 WHERE id=$7', [variant.id,flag,variant.channel_id,variant.uri,variant.bandwidth,variant.codecs,variant.id], (err, res) => {
-        if (err) {
-        return err
-        }
-        res1.json(res.rows[0])
-    })
-})
-   */ 
-
 }
 
   
