@@ -13,6 +13,10 @@ const {VariantDownloader} = require('./hls/VariantDownloader.js')
 const ensureExistsDir = require('./util.js').ensureExistsDir
 
 async function main() {
+    if (!process.env.FILE_SERVER) {
+        throw "NO FILESERVER VARIABLE"
+    }
+
     const channels = await getChannels()
 
     let vars = []

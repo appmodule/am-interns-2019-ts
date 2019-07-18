@@ -22,8 +22,14 @@ function VariantDownloader(variant) {
             filename = filename + extension
             let path = this.dir + filename
             fs.createWriteStream(path).write(segment.data)
+            let file_server = process.env.FILE_SERVER
 
-            var chunk = {variant_id: variant.id,filepath: path,duration: segment.duration, timestamp: segment.programDateTime}
+            var chunk = {
+                variant_id: variant.id,
+                filepath: file_server+"/"+path,
+                duration: segment.duration,
+                timestamp: segment.programDateTime
+            }
             
             const addChunk = require('../database/saved_chunks.js').addChunk
             addChunk(chunk)
