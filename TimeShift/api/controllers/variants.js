@@ -33,13 +33,19 @@ function addVariant(req, httpRes, next) {
     })
   }
   
-function updateVariantFlag(req, res1) {
-// variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
-var id = req.swagger.params.id.value;
-//var flag = req.swagger.params.flag.value;
-var flag = 0;
+function updateVariantFlag(req, httpRes, next) {
+    var params = req.swagger.params
+    var id = params.id.value || 0
+    var disabled = params.disabled.value || false
 
-const db = require('../database')
+    db.query('UPDATE variants SET disabled=$1 WHERE id=$2',[disabled,id], (err,res)=> {
+        if (err) {
+            next(err)
+            return
+        }
+        httpRes.json("success")
+    })
+    /*
 var variant = null;
 db.query('SELECT * FROM variants WHERE id = $1', [id], (err, res) => {
     if (err) {
@@ -55,7 +61,7 @@ db.query('SELECT * FROM variants WHERE id = $1', [id], (err, res) => {
         res1.json(res.rows[0])
     })
 })
-    
+   */ 
 
 }
 
