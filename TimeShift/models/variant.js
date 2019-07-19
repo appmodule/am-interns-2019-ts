@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   variant.associate = function(models) {
     variant.belongsTo(models.channel, {foreignKey: 'channel_id'})
-    
+    variant.hasMany(models.saved_chunk, {foreignKey : "variant_id"})
   };
   return variant;
 };

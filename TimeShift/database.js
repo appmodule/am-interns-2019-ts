@@ -20,13 +20,24 @@ class Database
 
     async getVariants () 
     {
-    let res =await variant.findAll({})
+        let res = await variant.findAll({})
         
-    let variants = []
-    res.forEach(v => {
-        variants.push(v.dataValues)
-    })
-    return variants
+        let variants = []
+        res.forEach(v => {
+            variants.push(v.dataValues)
+        })
+        return variants
+    }
+
+    async getSavedChunks () 
+    {
+        let res = await saved_chunk.findAll({})
+        
+        let chunks = []
+        res.forEach(v => {
+            chunks.push(v.dataValues)
+        })
+        return chunks
     }
 }
 async function main() {
@@ -36,6 +47,8 @@ async function main() {
     console.log(c);
     var v = await db.getVariants();
     console.log(v);
+    var chunks = await db.getSavedChunks();
+    console.log(chunks);
 }
 
 main()
