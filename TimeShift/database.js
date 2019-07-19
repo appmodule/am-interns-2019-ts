@@ -17,12 +17,25 @@ class Database
             })
         return channels;      
     }
+
+    async getVariants () 
+    {
+    let res =await variant.findAll({})
+        
+    let variants = []
+    res.forEach(v => {
+        variants.push(v.dataValues)
+    })
+    return variants
+    }
 }
 async function main() {
     
     var db = new Database
     var c = await db.getChannels();
     console.log(c);
+    var v = await db.getVariants();
+    console.log(v);
 }
 
 main()
