@@ -24,7 +24,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'variant', // name of Target model
+          model: 'variants', // name of Target model
           key: 'id' // key in Target model that we're referencing
         }
       },

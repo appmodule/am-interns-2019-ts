@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     disabled: DataTypes.BOOLEAN
   }, {});
   variant.associate = function(models) {
-    variant.belongsTo(models.channel)
+    variant.belongsTo(models.channel, {foreignKey: 'channel_id'})
+    
   };
   return variant;
 };
