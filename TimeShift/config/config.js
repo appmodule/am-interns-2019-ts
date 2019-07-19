@@ -1,10 +1,12 @@
-{
+require('dotenv').config()
+module.exports=
+  {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
+    "username": process.env.PGUSER,
+    "password": process.env.PGPASSWORD,
+    "database": "sequelize",
+    "host": process.env.PGHOSTADDR,
+    "dialect": "postgres",
     "operatorsAliases": false
   },
   "test": {
@@ -23,4 +25,5 @@
     "dialect": "mysql",
     "operatorsAliases": false
   }
+  
 }
