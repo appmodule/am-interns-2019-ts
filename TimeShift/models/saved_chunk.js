@@ -7,8 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     variant_id: DataTypes.INTEGER
   }, {});
   saved_chunk.associate = function(models) {
-    // associations can be defined here
-    saved_chunk.belongsTo(models.variant)
+    saved_chunk.belongsTo(models.variant, {foreignKey : "variant_id"})
   };
   return saved_chunk;
 };
