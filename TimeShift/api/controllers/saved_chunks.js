@@ -2,6 +2,7 @@
 
 const util = require('util');
 const db = require('../database')
+const saved_chunks_db = require('../../database/saved_chunk.js')
 
 module.exports = {
   addChunk: addChunk,
@@ -12,43 +13,26 @@ module.exports = {
 
 function getChunk(httpReq, httpRes, next) {
   var id = httpReq.swagger.params.id.value;
-
-
-  db.query('SELECT * FROM saved_chunks WHERE id = $1', [id], (err, res) => {
-      if (err) {
-        next(err)
-        return
-      }
-      httpRes.json(res.rows[0])
-  })
+  saved_chunks_db.getChunk(id)
+                 .then(res => httpRes.json(res))
 }
 
 function addChunk(httpReq, httpRes, next) {
   
   var variant_id = httpReq.swagger.params.variant_id.value;
   var filepath = httpReq.swagger.params.filepath.value;
-  var timestamp = new Date();
   var duration = httpReq.swagger.params.duration.value;
-  
-  var query_string = 'INSERT INTO saved_chunks (variant_id,timestamp,filepath, duration) VALUES ($1,$2,$3,$4) RETURNING *'
-
-  db.query(query_string, [variant_id,timestamp,filepath, duration], (err, res) => { 
-    if (err) {
-        next(err)
-        return
-    }
-    httpRes.json(res.rows[0])
-  })
+  var timestamp = new Date();
+  saved_chunks_db.createChunk({variant_id, filepath, duration, timestamp})
+    .then(res => httpRes.json(res))
+    .catch(err => next(err))
 }
 
-function deleteSavedChunk(httpReq,httpRes)
+function deleteSavedChunk(httpReq, httpRes, next)
 {
   var id = httpReq.swagger.params.id.value;
 
-  db.query('DELETE FROM saved_chunks WHERE id = $1 RETURNING *', [id],(err, res) => {
-    if (err) {
-      return err
-    }
-    httpRes.json(res.rows[0])
-  })
+  saved_chunks_db.deleteChunk(id)
+    .then(res => httpRes.json(res))
+    .catch(err => next(err))
 }
