@@ -1,37 +1,37 @@
-module.exports = {
-    getChannelFromTo: getChannelFromTo,
-    getSelectedVariantFromTo: getSelectedVariantFromTo
-  };
-function getChannelFromTo(req, res1)
+const channel = require('../../models').channel
+const variant = require('../../database/variant.js')
+const saved_chunk = require('../../models').saved_chunk
+
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
+
+module.exports=
 {
-    var channelId = req.swagger.params.channelId.value || 'stranger';
-    var from = req.swagger.params.from.value;
-    var to = req.swagger.params.to.value;
-    let stringToReturn = '#EXTM3U\r\n';
-    stringToReturn+='#EXT-X-VERSION:'+2+"\r\n";
-    const db = require('../database')
-    let variant = null;
-        
-        db.query('SELECT * FROM variants WHERE channel_id = $1',[channelId],(err,res)=>
-        {
-          if (err)
+   getChannelFromTo(req,res1)
+  {
+        let channelId = req.swagger.params.channelId.value || 'stranger';
+        let from = req.swagger.params.from.value
+        let to = req.swagger.params.to.value
+        let stringToReturn = '#EXTM3U\r\n';
+        stringToReturn+='#EXT-X-VERSION:'+2+"\r\n";
+       
+        let retval =  variant.getVariants(channelId)
+        .then(retval=> {retval.forEach(
+          element=>
           {
-            return err
-          }
-          res.rows.forEach(variant =>
-            {
-                stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+variant.bandwidth+",CODECS=\""+variant.codecs+"\""+"\r\n"+"/timeshift/variant?variantId="+variant.id+"&from="+from+"&to="+to+"\r\n"         
-            })  
- 
-          
-            res1.end(stringToReturn,'utf8')
-            
+            stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\""+"\r\n"+"/timeshift/variant?variantId="+element.id+"&from="+encodeURIComponent(from)+"&to="+encodeURIComponent(to)+"\r\n"
             console.log(stringToReturn)
-    
-        })
-      
+            
+          }
+          ); return stringToReturn } )  
+        .then(str=>{
+            res1.end(str,'utf8')
+            console.log(str)
+          })  
+  }
 }
-function getSelectedVariantFromTo(req,res1)
+
+/*function getSelectedVariantFromTo(req,res1)
 {
     var variantId =  req.swagger.params.variantId.value || 'stranger';
     var from = req.swagger.params.from.value
@@ -56,4 +56,25 @@ function getSelectedVariantFromTo(req,res1)
 
 
 
+}*/
+
+/*async function main() {
+    let c =
+        {
+            uri: 'bla bla',
+            number_failed: 0,
+            number_succeded: 0,
+            hours_to_record: 72,
+            name: '***REMOVED***',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+    var db = require('./timeShift.js')
+    var c1 = db.updateChannel(1,1,1);
+    db.getChannelFromTo(1)
+    console.log(ret)
+    const c1 = db.deleteChannel(4)
+    console.log(c);
 }
+
+main()*/
