@@ -109,6 +109,52 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /timeShift/liveStreamPlaylist:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: timeShift
+    get:
+      description: Returns live stream playlist
+      # used as the method name of the controller
+      operationId: createMediaPlaylistForLiveStreaming
+      parameters:
+        - name: variantId
+          in: query
+          description: Id of wanted variant
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /timeShift/getChannelsForLiveStreaming:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: timeShift
+    get:
+      description: Returns live stream playlist
+      # used as the method name of the controller
+      operationId: getChannelsForLiveStreaming
+      parameters:
+        - name: variantId
+          in: query
+          description: Id of wanted variant
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /channels:
     # binds a127 app logic to a route
     x-swagger-router-controller: channel
