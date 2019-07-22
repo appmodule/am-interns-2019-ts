@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     timestamp: DataTypes.DATE,
     filepath: DataTypes.TEXT,
     duration: DataTypes.REAL,
-    variant_id: DataTypes.INTEGER
+    variant_id: DataTypes.INTEGER,
+    media_sequence: DataTypes.INTEGER
   }, {});
   saved_chunk.associate = function(models) {
     saved_chunk.belongsTo(models.variant, {foreignKey : "variant_id"})

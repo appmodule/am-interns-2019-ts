@@ -15,6 +15,7 @@ module.exports = {
           variant_id: variant,
           createdAt: new Date(),
           updatedAt: new Date(),
+          media_sequence: i
         })
       }
     }

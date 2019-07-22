@@ -22,8 +22,9 @@ function addChunk(httpReq, httpRes, next) {
   var variant_id = httpReq.swagger.params.variant_id.value;
   var filepath = httpReq.swagger.params.filepath.value;
   var duration = httpReq.swagger.params.duration.value;
+  var media_sequence = httpReq.swagger.params.media_sequence.value;
   var timestamp = new Date();
-  saved_chunks_db.createChunk({variant_id, filepath, duration, timestamp})
+  saved_chunks_db.createChunk({variant_id, filepath, duration, timestamp,media_sequence})
     .then(res => httpRes.json(res))
     .catch(err => next(err))
 }

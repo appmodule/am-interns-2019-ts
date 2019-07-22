@@ -281,6 +281,11 @@ paths:
           description: Duration of the chunk
           required: true
           type: number
+        - name: media_sequence
+          in: formData
+          description: Media sequence number of the chunk
+          required: true
+          type: number
       responses:
         "200":
           description: Success
