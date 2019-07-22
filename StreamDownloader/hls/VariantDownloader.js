@@ -32,9 +32,8 @@ function VariantDownloader(variant) {
             }
             
             const addChunk = require('../database/saved_chunks.js').addChunk
-            addChunk(chunk)
-
-    
+            if (process.env.FILE_SERVER)
+                addChunk(chunk)
         }
     })
     .on('end', () => {
