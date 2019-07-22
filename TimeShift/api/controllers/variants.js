@@ -2,6 +2,7 @@
 'use strict';
 
 const db = require('../database')
+const variants_db = require('../../database/variant.js')
 
 module.exports = {
     getVariants: getVariants,
@@ -11,26 +12,19 @@ module.exports = {
 
 function getVariants(req, httpRes, next) {
     let channelID = req.swagger.params.channel_id.value;
-    db.query('SELECT * FROM variants WHERE channel_id = $1', [channelID]).then(dbRes => {
-        httpRes.json(dbRes.rows)
-    }).catch(dbErr => {
-        next(dbErr)
-    })
+    variants_db.getVariants(channelID)
+                 .then(res => httpRes.json(res))
 }
 
-function addVariant(req, httpRes, next) {
+  function addVariant(req, httpRes, next) {
     let channel_id = req.swagger.params.channel_id.value;
     let uri = req.swagger.params.uri.value;
     let bandwidth = req.swagger.params.bandwidth.value;
     let codecs = req.swagger.params.codecs.value;
     
-    let query_text = 'INSERT INTO variants (channel_id, uri, bandwidth, codecs) VALUES ($1,$2,$3,$4)'
-    let values = [channel_id, uri, bandwidth, codecs]
-    db.query( query_text , values).then(dbRes => {
-        httpRes.json({})
-    }).catch(dbErr => {
-        next(dbErr)
-    })
+    variants_db.createVariant({channel_id, uri, bandwidth, codecs})
+    .then(res => httpRes.json(res))
+    .catch(err => next(err))
   }
   
 function updateVariantFlag(req, httpRes, next) {
@@ -38,13 +32,10 @@ function updateVariantFlag(req, httpRes, next) {
     var id = params.id.value || 0
     var disabled = params.disabled.value || false
 
-    db.query('UPDATE variants SET disabled=$1 WHERE id=$2',[disabled,id], (err,res)=> {
-        if (err) {
-            next(err)
-            return
-        }
-        httpRes.json("success")
-    })
+    variants_db.updateVariant(id,disabled)
+    .then(res => httpRes.json(res))
+    .catch(err => next(err))
+    
 }
 
   
