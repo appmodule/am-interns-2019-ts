@@ -3,50 +3,49 @@ module.exports = {
   getChannel: getChannel,
   addChannel: addChannel,
   deleteChannel: deleteChannel
-  
 };
 
-function getChannel(req, res1)
-{
-    var channelId = req.swagger.params.channelId.value || 'stranger';
-    const db = require('../database')
-    db.query('SELECT * FROM channels WHERE id = $1', [channelId], (err, res) => 
-    {
-        if (err) 
-        {
-        return err
-        }
-        res1.json(res.rows[0])
-    })
+const channels_db = require('../../database/channel.js')
+
+function getChannel(req, res, next) {
+    const channelId = req.swagger.params.channelId.value
+    let response_promise
+    console.log(channelId)
+    if (!channelId) {
+      response_promise = channels_db.getChannels()
+    }
+    else {
+      response_promise = channels_db.getChannel(channelId)
+    }
+    response_promise
+      .then(value => res.json(value))
+      .catch(err => next(err))
 }
 
-  function addChannel(req,res1){
+function addChannel(req,res, next) {
+  let uri = req.swagger.params.uri.value;
+  let number_failed = req.swagger.params.number_failed.value;
+  let number_succeded = req.swagger.params.number_succeded.value;
+  let hours_to_record = req.swagger.params.hours_to_record.value;
+  let name = req.swagger.params.name.value;
+ 
+  channels_db.createChannel(
+    {
+      uri,
+      number_failed,
+      number_succeded,
+      hours_to_record,
+      name,
+    }
+  ) .then(value => res.json(value))
+    .catch(err => next(err))
+}
 
-    var uri = req.swagger.params.uri.value;
-    var number_failed = req.swagger.params.number_failed.value;
-    var number_succeded = req.swagger.params.number_succeded.value;
-    var hours_to_record = req.swagger.params.hours_to_record.value;
-    var name = req.swagger.params.name.value;
-    
-    const db = require('../database');
+function deleteChannel(req, res, next)
+{
+  let id = req.swagger.params.id.value;
 
-    db.query('INSERT INTO channels(uri,number_failed,number_succeded,hours_to_record,name) VALUES ($1,$2,$3,$4,$5) RETURNING *', [uri,number_failed,number_succeded,hours_to_record,name],(err, res) => {
-      if (err) {
-        return err
-      }
-      res1.json(res.rows[0])
-  })
-  }
-
-  function deleteChannel(req,res1)
-  {
-    var id = req.swagger.params.id.value;
-    const db = require('../database');
-
-    db.query('DELETE FROM channels WHERE id = $1 RETURNING *', [id],(err, res) => {
-      if (err) {
-        return err
-      }
-      res1.json(res.rows[0])
-    })
-  }
+  channels_db.deleteChannel(id)
+    .then(value => res.json(value))
+    .catch(err => next(err))
+}
