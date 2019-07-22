@@ -19,8 +19,8 @@ module.exports=
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
+    "password": process.env.DATABASE_PASSWORD,
+    "database": "timeshift",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
