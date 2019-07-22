@@ -23,6 +23,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('saved_chunks')
+    return queryInterface.bulkDelete('saved_chunks', {})
   }
 };

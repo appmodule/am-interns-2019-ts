@@ -27,7 +27,6 @@ module.exports=
             }
           })
         return res.dataValues;
-        //console.log(res) 
     },
 
     updateChannel(channelId,numOfLost,numOfSaved)
@@ -45,23 +44,3 @@ module.exports=
         return channel.destroy({where: {id}});
     }
 }
-/*async function main() {
-    let c =
-        {
-            uri: 'bla bla',
-            number_failed: 0,
-            number_succeded: 0,
-            hours_to_record: 72,
-            name: '***REMOVED***',
-            createdAt: new Date(),
-            updatedAt: new Date()
-        }
-    var db = require('./channel.js')
-    //var c1 = db.updateChannel(1,1,1);
-    let ret = await db.getChannel(1)
-    console.log(ret)
-    //const c1 = db.deleteChannel(4)
-    //console.log(c);
-}
-
-main()*/

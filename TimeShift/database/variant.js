@@ -50,30 +50,4 @@ module.exports =
         return variant.destroy({where: {id}});
     }
 
-    
 }
-
-async function main() {
-    var db = require('./variant.js');
-    //var v = await db.getVariants()
-    //var v = await db.getVariant(1)
-    //console.log(v);
-    //await db.updateVariant(1,true)
-    /*var v = 
-    {
-        codecs: 'avc1.42001f,mp4a.40.2',
-        bandwidth: 2339692,
-        channel_id: 1,
-        uri: '***REMOVED***',
-        disabled: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-    }
-    db.createVariant(v);*/
-    //db.deleteVariant(5)
-    //var v = await db.getVariants(1);
-    //console.log(v);
-   
-}
-
-main()

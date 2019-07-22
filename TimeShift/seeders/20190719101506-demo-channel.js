@@ -4,29 +4,32 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('channels', [
       {
-        uri: '***REMOVED***',
+        id: 1,
+        uri: 'http://example.com/a_stream.m3u8',
         number_failed: 0,
         number_succeded: 0,
         hours_to_record: 72,
-        name: '***REMOVED***',
+        name: 'example_a',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        uri: '***REMOVED***',
+        id: 2,
+        uri: 'http://example.com/b_stream.m3u8',
         number_failed: 0,
         number_succeded: 0,
         hours_to_record: 72,
-        name: '***REMOVED***',
+        name: 'example_b',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        uri: '***REMOVED***',
+        id: 3,
+        uri: 'http://example.com/c_stream.m3u8',
         number_failed: 0,
         number_succeded: 0,
         hours_to_record: 72,
-        name: '***REMOVED***',
+        name: 'example_c',
         createdAt: new Date(),
         updatedAt: new Date()
       }
