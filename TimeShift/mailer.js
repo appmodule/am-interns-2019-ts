@@ -28,5 +28,5 @@
         });
     };
 
-const sender = require('./mailer.js');
-sender.send("dragana.stojnev@gmail.com","subject","text");
+/*const sender = require('./mailer.js');
+sender.send("dragana.stojnev@gmail.com","subject","text");*/

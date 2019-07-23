@@ -1,6 +1,7 @@
 const channel = require('../models').channel
 const variant = require('../models').variant
 const saved_chunk = require('../models').saved_chunk
+const lost_chunk = require('../models').lost_chunk
 
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -48,6 +49,23 @@ module.exports =
     deleteVariant(id)
     {
         return variant.destroy({where: {id}});
+    },
+
+    async getNumberOfLostChunks(variantId)
+    {
+        let retval = await lost_chunk.findAll({attributes: [[Sequelize.fn('count', Sequelize.col('variant_id')), 'count']],where: {variant_id:variantId},group : ['variant_id']})
+
+        if(!retval[0])
+            return 0
+        return retval[0].dataValues.count
     }
 
 }
+ /*async function main1()
+{
+    let db = require('./variant.js')
+    let c= await db.getNumberOfLostChunks(2)
+    console.log(c)
+}
+
+main1()*/
