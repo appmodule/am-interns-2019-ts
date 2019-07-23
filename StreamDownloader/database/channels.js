@@ -1,14 +1,17 @@
 'use strict';
-
-const query = require('./query.js').query
+const channel = require('../../TimeShift/database/channel.js')
 
 async function getChannels() {
-    const query_text = "SELECT id, uri, name from channels;"
-    const rows = (await query(query_text)).rows
-    return rows
+    
+    return channel.getChannels()
 }
 
+module.exports.getChannels = getChannels;
 
+/*async function main()
+{
+    let c = await getChannels()
+    console.log(c)
+}
 
-
-module.exports.getChannels = getChannels
+main();*/

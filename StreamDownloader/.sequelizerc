@@ -1,8 +1,8 @@
 const path = require('path');
 
 module.exports = {
-  'config': path.resolve('../TimeShift/config', 'database.json'),
+  'config': path.resolve('../TimeShift/config', 'config.js'),
   'models-path': path.resolve('../TimeShift', 'models'),
   'seeders-path': path.resolve('../TimeShift', 'seeders'),
-  'migrations-path': path.resolve('..TimeShift', 'migrations')
+  'migrations-path': path.resolve('../TimeShift', 'migrations')
 }
