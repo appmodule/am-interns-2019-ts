@@ -12,6 +12,10 @@ async function main() {
     for (let channel of channels) {
         channelDownloader(channel.uri, channel.id)
     }
-}
 
+}
 main()
+
+const removeOldChunks = require('./database/channels.js').removeOldChunks
+const tenMinutes = 10*60*1000
+setInterval(removeOldChunks, tenMinutes)
