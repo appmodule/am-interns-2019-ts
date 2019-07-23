@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     media_sequence: DataTypes.INTEGER
   }, {});
   saved_chunk.associate = function(models) {
-    saved_chunk.belongsTo(models.variant, {foreignKey : "variant_id"})
+    saved_chunk.belongsTo(models.variant, {foreignKey : "variant_id",onDelete:"cascade"})
   };
   return saved_chunk;
 };
