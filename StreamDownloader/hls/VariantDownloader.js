@@ -28,12 +28,17 @@ function VariantDownloader(variant) {
                 variant_id: variant.id,
                 filepath: file_server+"/"+path,
                 duration: segment.duration,
-                timestamp: segment.programDateTime
+                timestamp: segment.programDateTime,
+                media_sequence: segment.mediaSequenceNumber,
             }
-            
-            const addChunk = require('../database/saved_chunks.js').addChunk
-            if (process.env.FILE_SERVER)
-                addChunk(chunk)
+           
+            try {
+                const addChunk = require('../database/saved_chunks.js').addChunk
+                if (process.env.FILE_SERVER)
+                    addChunk(chunk)
+            } catch (err) {
+                console.log(err)
+            }
         }
     })
     .on('end', () => {
