@@ -1,14 +1,28 @@
 'use strict';
 
 const query = require('./query.js').query
-
+const saved_chunk = require('../../TimeShift/database/saved_chunk.js')
 
 
 async function addChunk(chunk) {
-    const query_text = "INSERT INTO saved_chunks(variant_id,timestamp,filepath,duration) VALUES ($1,$2,$3,$4) RETURNING id;"
-    const vals = [chunk.variant_id,chunk.timestamp,chunk.filepath,chunk.duration]
-    const id = (await query(query_text,vals)).rows[0].id
-    return id
+    return saved_chunk.createChunk(chunk)
 }
 
 module.exports.addChunk = addChunk
+
+async function main()
+{
+    var ch = await addChunk(
+        {
+            variant_id: 1,
+            filepath: "test",
+            duration: 8,
+            timestamp: new Date(),
+            media_sequence: 5
+
+        })
+    console.log(ch)
+
+}
+
+main()
