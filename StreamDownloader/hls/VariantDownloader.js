@@ -26,7 +26,7 @@ function VariantDownloader(variant) {
 
             var chunk = {
                 variant_id: variant.id,
-                filepath: file_server+"/"+path,
+                filepath: path,
                 duration: segment.duration,
                 timestamp: segment.programDateTime,
                 media_sequence: segment.mediaSequenceNumber,

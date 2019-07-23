@@ -54,7 +54,7 @@ module.exports=
     })
     .then(retval=>{retval.forEach(element=>
         {
-            stringToReturn+= "#EXTINF:"+element.duration+"\r\n"+element.filepath+"\r\n";
+            stringToReturn+= "#EXTINF:"+element.duration+"\r\n"+"/"+element.filepath+"\r\n";
         }); return stringToReturn})
         .then(str=>{res1.end(str,'utf8')
             console.log(str)})
@@ -86,7 +86,7 @@ module.exports=
         {
             retval.forEach(element=>
                 {
-                    stringToReturn+="#EXTINF:"+element.duration+"\r\n"+element.filepath+"\r\n";
+                    stringToReturn+="#EXTINF:"+element.duration+"\r\n"+"/"+element.filepath+"\r\n";
                 }); return stringToReturn})
                 .then(str=>{res1.end(str,'utf8')
                 })

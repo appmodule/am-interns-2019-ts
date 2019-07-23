@@ -2,13 +2,17 @@
 
 require('dotenv').config()
 
-var SwaggerConnect = require('swagger-connect');
-var app = require('connect')();
+let SwaggerConnect = require('swagger-connect');
+let app = require('connect')();
+let serveStatic = require('serve-static');
+
 module.exports = app; // for testing
 
-var config = {
+let config = {
   appRoot: __dirname // required config
 };
+
+app.use(serveStatic("../StreamDownloader"))
 
 SwaggerConnect.create(config, function(err, swaggerConnect) {
   if (err) { throw err; }
@@ -16,10 +20,11 @@ SwaggerConnect.create(config, function(err, swaggerConnect) {
   // install middleware
   swaggerConnect.register(app);
 
-  var port = process.env.PORT || 10010;
+  let port = process.env.PORT || 10010;
   app.listen(port);
 
   if (swaggerConnect.runner.swagger.paths['/hello']) {
     console.log('try this:\ncurl http://127.0.0.1:' + port + '/hello?name=Scott');
   }
 });
+
