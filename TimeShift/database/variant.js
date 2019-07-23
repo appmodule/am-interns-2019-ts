@@ -51,3 +51,9 @@ module.exports =
     }
 
 }
+function fja()
+{
+    const db = require('./variant.js')
+    var c = db.deleteVariant(1)
+}
+fja()
