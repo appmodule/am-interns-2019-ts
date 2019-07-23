@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.TEXT
   }, {});
   channel.associate = function(models) {
-    channel.hasMany(models.variant, {foreignKey : "channel_id"})
+    channel.hasMany(models.variant, {foreignKey : "channel_id",onDelete:'CASCADE'})
   };
   return channel;
 };

@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     disabled: DataTypes.BOOLEAN
   }, {});
   variant.associate = function(models) {
-    variant.belongsTo(models.channel, {foreignKey: 'channel_id'})
-    variant.hasMany(models.saved_chunk, {foreignKey : "variant_id"})
+    variant.belongsTo(models.channel, {foreignKey: 'channel_id',onDelete:'CASCADE'})
+    variant.hasMany(models.saved_chunk, {foreignKey : "variant_id",onDelete:'CASCADE'})
     variant.hasMany(models.lost_chunk, {foreignKey : "variant_id",onDelete:'CASCADE'})
   };
   return variant;
