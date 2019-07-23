@@ -43,7 +43,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /timeShift/channels:
+  /play/timeshift/{name}:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
@@ -51,21 +51,21 @@ paths:
       # used as the method name of the controller
       operationId: getChannelFromTo
       parameters:
-        - name: channelId
-          in: query
-          description: Id of wanted channel
-          required: false
+        - name: name
+          in: path
+          description: Name of wanted channel
+          required: true
           type: string
-        - name: from
+        - name: start
           in: query
           description: Start point for downloading
           required: false
-          type: string
-        - name: to
+          type: integer
+        - name: duration
           in: query
-          description: End point for downloading
+          description: Time for downloading
           required: false
-          type: string
+          type: integer
       responses:
         "200":
           description: Success

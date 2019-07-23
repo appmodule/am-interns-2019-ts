@@ -1,4 +1,5 @@
-const channel = require('../../models').channel
+//const channel = require('../../models').channel
+const channel = require('../../database/channel.js')
 const variant = require('../../database/variant.js')
 const saved_chunk = require('../../models').saved_chunk
 
@@ -8,27 +9,36 @@ const Op = Sequelize.Op
 module.exports=
 {
    getChannelFromTo(req,res1)
-  {
-        let channelId = req.swagger.params.channelId.value || 'stranger';
-        let from = req.swagger.params.from.value
-        let to = req.swagger.params.to.value
+  {     
+        let name = req.swagger.params.name.value || 'stranger';
+        let start = req.swagger.params.start.value
+        let duration = req.swagger.params.duration.value
 
         let stringToReturn = '#EXTM3U\r\n';
         stringToReturn+='#EXT-X-VERSION:'+2+"\r\n";
-       
-        let retval =  variant.getVariants(channelId)
-        .then(retval=> {retval.forEach(
-          element=>
-          {
-            stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\""+"\r\n"+"/timeshift/variant?variantId="+element.id+"&from="+encodeURIComponent(from)+"&to="+encodeURIComponent(to)+"\r\n"
-            //console.log(stringToReturn)
-            
-          }
-          ); return stringToReturn } )  
-        .then(str=>{
-            res1.end(str,'utf8')
-            console.log(str)
-          })  
+       var channelId;
+
+        async function getId()
+        {
+            channelId = await channel.getChannelId(name)
+            console.log(channelId)
+            //let channelId = await channel.getChannelId(name);
+            let retval =  variant.getVariants(channelId)
+            .then(retval=> {retval.forEach(
+            element=>
+            {
+                stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\""+"\r\n"+"/timeshift/variant?variantId="+element.id+"&start="+encodeURIComponent(start)+"&duration="+encodeURIComponent(duration)+"\r\n"
+                //console.log(stringToReturn)
+                //http://85.25.95.106:10010/timeShift/channels/4/playlist.m3u8?start=XXX&duration=XXXX
+            }
+            ); return stringToReturn } )  
+            .then(str=>{
+                res1.end(str,'utf8')
+                console.log(str)
+            }) 
+        }
+        getId(); 
+        
   },
   getSelectedVariantFromTo(req,res1)
   {

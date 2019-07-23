@@ -50,7 +50,7 @@ module.exports =
     {
         return variant.destroy({where: {id}});
     },
-
+    
     async getNumberOfLostChunks(variantId)
     {
         let retval = await lost_chunk.findAll({attributes: [[Sequelize.fn('count', Sequelize.col('variant_id')), 'count']],where: {variant_id:variantId},group : ['variant_id']})

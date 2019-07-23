@@ -33,7 +33,10 @@ module.exports=
     {
         return channel.increment({number_failed:numOfLost, number_succeded:numOfSaved},{where:{id:channelId}});      
     },
-
+     async getChannelId(name){
+        let retval = await channel.findOne({attribute:['id'],where: {name:name}})
+        return retval.dataValues.id
+      },
     createChannel(c)
     {
         return channel.create(c);
