@@ -48,6 +48,12 @@ function VariantDownloader(variant) {
         console.log(`Error with variant ${variant.id}`)
         console.log(err)
         console.error(err.stack);
+        const addChunk = require('../database/lost_chunks.js').addChunk
+        var chunk = {
+            variant_id: variant.id,
+            start: new Date()
+        }
+        addChunk(chunk)
     });
 }
 
