@@ -1,6 +1,6 @@
 'use strict';
 
-const saved_chunk = require('../../TimeShift/database/lost_chunk.js')
+const lost_chunk = require('../../TimeShift/database/lost_chunk.js')
 
 
 async function addChunk(chunk) {
