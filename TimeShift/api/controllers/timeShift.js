@@ -16,25 +16,22 @@ module.exports=
 
         let stringToReturn = '#EXTM3U\r\n';
         stringToReturn+='#EXT-X-VERSION:'+2+"\r\n";
-       var channelId;
+        var channelId;
 
         async function getId()
         {
             channelId = await channel.getChannelId(name)
             console.log(channelId)
-            //let channelId = await channel.getChannelId(name);
-            let retval =  variant.getVariants(channelId)
+            variant.getVariants(channelId)
             .then(retval=> {retval.forEach(
             element=>
             {
                 stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\""+"\r\n"+"/timeshift/variant?variantId="+element.id+"&start="+encodeURIComponent(start)+"&duration="+encodeURIComponent(duration)+"\r\n"
-                //console.log(stringToReturn)
-                //http://85.25.95.106:10010/timeShift/channels/4/playlist.m3u8?start=XXX&duration=XXXX
             }
             ); return stringToReturn } )  
             .then(str=>{
+                str+="#EXT-X-ENDLIST"
                 res1.end(str,'utf8')
-                console.log(str)
             }) 
         }
         getId(); 
@@ -42,33 +39,35 @@ module.exports=
   },
   getSelectedVariantFromTo(req,res1)
   {
+    
     let variantId = req.swagger.params.variantId.value || 'stranger';
-    let from = req.swagger.params.from.value
-    let to = req.swagger.params.to.value
-
+    let start = req.swagger.params.start.value
+    let duration = req.swagger.params.duration.value
+    
     let stringToReturn = "#EXTM3U\r\n#EXT-X-PLAYLIST-TYPE:VOD\r\n#EXT-X-TARGETDURATION:10\r\n#EXT-X-VERSION:4\r\n#EXT-X-MEDIA-SEQUENCE:0\r\n";
-   
-    let chunks = saved_chunk.findAll({
+    let to = start+duration;
+    saved_chunk.findAll({
         attributes: ['duration', 'filepath'],
         where:{variant_id: variantId,
             timestamp:{
                 [Op.and]: {
-                    [Op.gte]:from,
-                    [Op.lte]: to
+                    [Op.gte]:start,
+                    [Op.lte]: start+duration
                 }
             }
         },
-        order:[['timestamp','ASC']]
-            
-        
+        order:[['timestamp','ASC']]  
     })
-    .then(retval=>{retval.forEach(element=>
+    .then(retval=>{
+        retval.forEach(element=>
         {
             stringToReturn+= "#EXTINF:"+element.duration+"\r\n"+"/"+element.filepath+"\r\n";
         }); return stringToReturn})
-        .then(str=>{res1.end(str,'utf8')
-            console.log(str)})
-},
+        .then(str=>{
+            str+="#EXT-X-ENDLIST"
+            res1.end(str,'utf8')
+            })
+    },
 
     createMediaPlaylistForLiveStreaming(req,res1)
     {
@@ -98,7 +97,9 @@ module.exports=
                 {
                     stringToReturn+="#EXTINF:"+element.duration+"\r\n"+"/"+element.filepath+"\r\n";
                 }); return stringToReturn})
-                .then(str=>{res1.end(str,'utf8')
+                .then(str=>{
+                    //str+="#EXT-X-ENDLIST"
+                    res1.end(str,'utf8')
                 })
     },
 
@@ -114,13 +115,10 @@ module.exports=
           element=>
           {
             stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\r\n"+"/timeshift/variant?variantId="+element.id+"\r\n"
-            //console.log(stringToReturn)
-            
           }
           ); return stringToReturn } )  
         .then(str=>{
             res1.end(str,'utf8')
-            console.log(str)
           })  
     }
 }

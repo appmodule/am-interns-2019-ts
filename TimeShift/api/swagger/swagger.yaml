@@ -89,16 +89,16 @@ paths:
           description: Id of wanted variant
           required: false
           type: string
-        - name: from
+        - name: start
           in: query
           description: requested recording start point
           required: false
-          type: string
-        - name: to
+          type: integer
+        - name: duration
           in: query
           description: requested recording end point
           required: false
-          type: string
+          type: integer
       responses:
         "200":
           description: Success
