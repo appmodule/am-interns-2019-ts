@@ -43,7 +43,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /play/timeshift/{name}:
+  /play/timeshift/{name}.m3u8:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
@@ -76,7 +76,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /timeShift/variant:
+  /timeShift/variant.m3u8:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:

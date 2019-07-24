@@ -29,4 +29,4 @@
     };
 
 /*const sender = require('./mailer.js');
-sender.send("dragana.stojnev@gmail.com","subject","text");*/
+sender.send("appModule123@gmail.com","subject","text");*/

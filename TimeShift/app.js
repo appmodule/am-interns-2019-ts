@@ -12,7 +12,17 @@ let config = {
   appRoot: __dirname // required config
 };
 
-app.use(serveStatic("../StreamDownloader"))
+app.use(function(req, res, next){
+	console.log(req.url)
+	next()
+});
+
+function setHeaders (res, path) {
+	console.log('hi')
+  res.setHeader('Access-Control-Allow-Origin','*')
+}
+
+app.use(serveStatic("../StreamDownloader", {'setHeaders':setHeaders}))
 
 SwaggerConnect.create(config, function(err, swaggerConnect) {
   if (err) { throw err; }

@@ -26,7 +26,7 @@ module.exports=
             .then(retval=> {retval.forEach(
             element=>
             {
-                stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\""+"\r\n"+"/timeshift/variant?variantId="+element.id+"&start="+encodeURIComponent(start)+"&duration="+encodeURIComponent(duration)+"\r\n"
+                stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\""+"\r\n"+"/timeshift/variant.m3u8?variantId="+element.id+"&start="+encodeURIComponent(start)+"&duration="+encodeURIComponent(duration)+"\r\n"
             }
             ); return stringToReturn } )  
             .then(str=>{
@@ -42,21 +42,21 @@ module.exports=
     
     let variantId = req.swagger.params.variantId.value || 'stranger';
     let start = req.swagger.params.start.value
-    let duration = req.swagger.params.duration.value
+    let duration = req.swagger.params.duration.value * 1000
     
     let stringToReturn = "#EXTM3U\r\n#EXT-X-PLAYLIST-TYPE:VOD\r\n#EXT-X-TARGETDURATION:10\r\n#EXT-X-VERSION:4\r\n#EXT-X-MEDIA-SEQUENCE:0\r\n";
     let to = start+duration;
     saved_chunk.findAll({
         attributes: ['duration', 'filepath'],
         where:{variant_id: variantId,
-            timestamp:{
+            createdAt:{
                 [Op.and]: {
                     [Op.gte]:start,
                     [Op.lte]: start+duration
                 }
             }
         },
-        order:[['timestamp','ASC']]  
+        order:[['createdAt','ASC']]  
     })
     .then(retval=>{
         retval.forEach(element=>
