@@ -35,7 +35,10 @@ async function channelDownloader(channel_uri, channel_id) {
     vars = await variants.linkToDatabase(vars)
 
     for (let variant of vars) {
-        new VariantDownloader(variant)
+        if(!variant.disabled)
+        {
+            new VariantDownloader(variant)
+        }
     }
 }
 

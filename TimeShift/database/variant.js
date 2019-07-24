@@ -64,7 +64,16 @@ module.exports =
  /*async function main1()
 {
     let db = require('./variant.js')
-    let c= await db.getNumberOfLostChunks(2)
+    //let c= await db.getNumberOfLostChunks(2)
+    for(var i=2;i<5;i++)
+    {
+        db.updateVariant(i,true)
+    }
+    for(var i=16;i<25;i++)
+    {
+        db.updateVariant(i,true)
+    }
+    
     console.log(c)
 }
 

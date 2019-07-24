@@ -3,6 +3,7 @@
 const variant = require('../../TimeShift/models').variant
 
 async function linkToDatabase(variants) {
+    let vs = []
     for (let v of variants) {
         let res = await variant.findOrCreate({
             where : {
@@ -12,9 +13,9 @@ async function linkToDatabase(variants) {
                 uri : v.uri,
             }
         })
-        v.id = res[0].id
+        vs.push(res[0].dataValues)
     }
-    return variants
+    return vs
 }
 
 module.exports.linkToDatabase = linkToDatabase
