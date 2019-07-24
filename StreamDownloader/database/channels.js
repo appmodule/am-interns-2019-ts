@@ -11,6 +11,16 @@ const chunk = require('../../TimeShift/models').saved_chunk
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
+async function incrementNumberSucceded(channelId)
+{
+    return channel.incrementNumberSucceded(channelId)
+}
+
+async function incrementNumberFailed(channelId)
+{
+    return channel.incrementNumberFailed(channelId)
+}
+
 async function removeOldChunks() {
     try {
         let channels = await getChannels()
@@ -44,5 +54,10 @@ async function removeOldChunks() {
     }
 }
 
-module.exports.getChannels = getChannels;
+module.exports.getChannels = getChannels
 module.exports.removeOldChunks =  removeOldChunks
+module.exports.incrementNumberSucceded = incrementNumberSucceded
+module.exports.incrementNumberFailed = incrementNumberFailed
+
+incrementNumberSucceded(1)
+incrementNumberFailed(1)

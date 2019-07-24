@@ -45,5 +45,11 @@ module.exports=
     deleteChannel(id)
     {
         return channel.destroy({where: {id}});
+    },
+    incrementNumberSucceded(channelId){
+        return channel.increment('number_succeded',{where:{id:channelId}})
+    },
+    incrementNumberFailed(channelId){
+        return channel.increment('number_failed',{where:{id:channelId}})
     }
 }

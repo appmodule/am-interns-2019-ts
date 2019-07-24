@@ -35,8 +35,13 @@ function VariantDownloader(variant) {
            
             try {
                 const addChunk = require('../database/saved_chunks.js').addChunk
+                const incrementNumberSucceded = require('../database/channels.js').incrementNumberSucceded
+              
                 if (process.env.FILE_SERVER)
-                    addChunk(chunk)
+                    {
+                        addChunk(chunk)
+                        incrementNumberSucceded(variant.channel_id)
+                    }
             } catch (err) {
                 console.log(err)
             }
@@ -51,11 +56,13 @@ function VariantDownloader(variant) {
         console.error(err.stack);
         console.log(lostChunks.getNumberOfLostChunks(2))
         const addChunk = require('../database/lost_chunks.js').addChunk
+        const incrementNumberFailed = require('../database/channels.js').incrementNumberFailed
         var chunk = {
             variant_id: variant.id,
             start: new Date()
         }
         addChunk(chunk)
+        incrementNumberFailed(variant.channel_id)
 
         async function lost()
         {
