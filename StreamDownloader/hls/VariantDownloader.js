@@ -1,6 +1,5 @@
 'use strict';
-const {createReadStream} = require('hlx-file-reader')
-//const {createReadStream} = require('hls-stream');
+const {createReadStream} = require('hlx-file-reader');
 const fs = require('fs')
 const ensureExistsDir = require('../util.js').ensureExistsDir
 const extname = require('path').extname
@@ -17,18 +16,29 @@ function VariantDownloader(variant) {
     
     this.stream = createReadStream(variant.uri, {concurrency: 7}); //concurrency?
 
-    this.stream.on('data', data => {
+    let me = this
+    function onData(data) {
         if (data.type === 'segment') {
             const segment = data;
-            this.onSegment(segment)
+            me.onSegment(segment)
         }
-    })
+    } 
+
+    this.stream.on('data',onData)
+
     .on('end', () => {
         console.log(`Done with variant ${this.variant.id}`);
     })
     .on('error', err => {
         this.onError(err)
     });
+}
+
+VariantDownloader.prototype.stop = async function()
+{
+    this.stream.removeListener("data",onData)
+    console.log(this.stream)
+     this.stream._cancelAll()
 }
 
 VariantDownloader.prototype.onSegment = async function(segment) {

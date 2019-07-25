@@ -21,6 +21,11 @@ async function incrementNumberFailed(channelId)
     return channel.incrementNumberFailed(channelId)
 }
 
+async function createChannel(channel)
+{
+    return channel.createChannel(channel)
+}
+
 async function removeOldChunks() {
     try {
         let channels = await getChannels()

@@ -30,6 +30,8 @@ async function getVariants(channel_uri, channel_id) {
     }
 }
 
+const mapOfVariants = new Map()
+
 async function channelDownloader(channel_uri, channel_id) {
     let vars = await getVariants(channel_uri, channel_id)
     vars = await variants.linkToDatabase(vars)
@@ -37,9 +39,31 @@ async function channelDownloader(channel_uri, channel_id) {
     for (let variant of vars) {
         if(!variant.disabled)
         {
-            new VariantDownloader(variant)
+            let vd = new VariantDownloader(variant)
+            mapOfVariants.set(variant.id,vd)
+        }
+    }
+}
+async function updateVariants(channel_uri,channel_id)
+{
+    let vars = await getVariants(channel_uri, channel_id)
+    vars = await variants.linkToDatabase(vars)
+    for(let variant of vars)
+    {
+        if(!mapOfVariants.has(variant.id) && variant.disabled === false)
+        {
+            let vd = new VariantDownloader(variant)
+            mapOfVariants.set(variant.id,vd)
+        }
+        else
+        if(mapOfVariants.has(variant.id) && variant.disabled === true)
+        {
+            let vd = mapOfVariants.get(variant.id)
+            vd.stop()
+            mapOfVariants.delete(variant.id)
         }
     }
 }
 
 module.exports = channelDownloader 
+module.exports = updateVariants
