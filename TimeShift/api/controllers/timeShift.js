@@ -160,7 +160,7 @@ module.exports=
                 stringToReturn+= "#EXTINF:"+element.duration+"\r\n"+"/"+element.filepath+"\r\n";
             }); return stringToReturn})
             .then(str=>{
-                if (start + duration*1000 + 10*60*1000> new Date()+1-1)
+                if (start + duration*1000 < new Date()+1-1)
                     str+="#EXT-X-ENDLIST"
                 res1.end(str,'utf8')
                 })
