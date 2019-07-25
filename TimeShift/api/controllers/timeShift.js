@@ -114,7 +114,7 @@ module.exports=
         .then(retval=> {retval.forEach(
           element=>
           {
-            stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\r\n"+"/timeshift/variant?variantId="+element.id+"\r\n"
+            stringToReturn += "#EXT-X-STREAM-INF:BANDWIDTH="+element.bandwidth+",CODECS=\""+element.codecs+"\r\n"+"/timeshift/liveStreamPlaylist?variantId="+element.id+"\r\n"
           }
           ); return stringToReturn } )  
         .then(str=>{
