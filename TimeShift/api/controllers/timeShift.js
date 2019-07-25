@@ -22,7 +22,7 @@ module.exports=
         /*console.log(flag)
         console.log(new Date()-1)
         console.log(new Date()-1+1)*/
-        if (flag>new Date()+1-1)
+        if (new Date(flag)>new Date())
             console.log('veci')
         async function getId()
         {
@@ -140,8 +140,6 @@ module.exports=
         
         let stringToReturn = "#EXTM3U\r\n#EXT-X-PLAYLIST-TYPE:EVENT\r\n#EXT-X-TARGETDURATION:10\r\n#EXT-X-VERSION:4\r\n#EXT-X-MEDIA-SEQUENCE:0\r\n";
         let to = start+duration;
-        console.log(new Date(start))
-        console.log(new Date(to))
         saved_chunk.findAll({
             attributes: ['duration', 'filepath'],
             where:{variant_id: variantId,
@@ -160,8 +158,12 @@ module.exports=
                 stringToReturn+= "#EXTINF:"+element.duration+"\r\n"+"/"+element.filepath+"\r\n";
             }); return stringToReturn})
             .then(str=>{
-                if (start + duration*1000 < new Date()+1-1)
+                
+                if (new Date(start + duration*1000) < new Date())
+                {
                     str+="#EXT-X-ENDLIST"
+                }
+                    
                 res1.end(str,'utf8')
                 })
         }
