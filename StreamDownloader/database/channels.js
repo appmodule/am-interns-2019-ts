@@ -25,14 +25,16 @@ async function removeOldChunks() {
     try {
         let channels = await getChannels()
         for (let c of channels) {
-            let delete_from = new Date((new Date()).setHours(-c.hours_to_record))
+            
+            let delete_from = new Date()
+            delete_from.setHours(delete_from.getHours()-c.hours_to_record)
             console.log(delete_from)
             let variants = await db_variant.getVariants(c.id)
             for (let v of variants) {
                 let where = {
                     where : {
                         variant_id : v.id,
-                        timestamp : {
+                        createdAt : {
                             [Op.lt]: delete_from
                         }
                     }
@@ -44,8 +46,10 @@ async function removeOldChunks() {
                 const fs = require('fs')
                 for (let c of to_delete) {
                     let path = c.dataValues.filepath
-                    if (!fs.existsSync(path))
+                    if (fs.existsSync(path)) {
                         fs.unlinkSync(path)
+                        console.log("Deleting file "+ path)
+                    }
                 }
             }
         }
@@ -58,6 +62,3 @@ module.exports.getChannels = getChannels
 module.exports.removeOldChunks =  removeOldChunks
 module.exports.incrementNumberSucceded = incrementNumberSucceded
 module.exports.incrementNumberFailed = incrementNumberFailed
-
-incrementNumberSucceded(1)
-incrementNumberFailed(1)
