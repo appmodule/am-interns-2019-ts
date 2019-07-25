@@ -1,5 +1,6 @@
 'use strict';
-const {createReadStream} = require('hls-stream');
+const {createReadStream} = require('hlx-file-reader')
+//const {createReadStream} = require('hls-stream');
 const fs = require('fs')
 const ensureExistsDir = require('../util.js').ensureExistsDir
 const extname = require('path').extname
