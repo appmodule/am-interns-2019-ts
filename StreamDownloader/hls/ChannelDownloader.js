@@ -65,5 +65,7 @@ async function updateVariants(channel_uri,channel_id)
     }
 }
 
-module.exports = channelDownloader 
-module.exports = updateVariants
+module.exports = {
+    channelDownloader,
+    updateVariants,
+}

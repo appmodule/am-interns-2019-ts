@@ -2,9 +2,9 @@
 require('dotenv').config()
 
 const getChannels = require('./database/channels.js').getChannels
-const channelDownloader = require('./hls/ChannelDownloader.js')
+const channelDownloader = require('./hls/ChannelDownloader.js').channelDownloader
 const ensureExistsDir = require('./util.js').ensureExistsDir
-const updateVariant = require('./hls/ChannelDownloader.js').updateVariant
+const updateVariants = require('./hls/ChannelDownloader.js').updateVariants
 
 const mapOfChannels = new Map()
 
@@ -37,7 +37,7 @@ async function downloadNewChannels()
         }
         else
         {
-            updateVariant(channel.uri,channel.id)
+            updateVariants(channel.uri,channel.id)
         }
 
         
