@@ -159,7 +159,7 @@ module.exports=
             }); return stringToReturn})
             .then(str=>{
                 
-                if (new Date(start + duration*1000) < new Date())
+                if (new Date(start + duration) < new Date())
                 {
                     str+="#EXT-X-ENDLIST"
                 }
