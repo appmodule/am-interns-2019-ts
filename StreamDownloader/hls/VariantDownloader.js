@@ -16,15 +16,7 @@ function VariantDownloader(variant) {
     
     this.stream = createReadStream(variant.uri, {concurrency: 7}); //concurrency?
 
-    let me = this
-    function onData(data) {
-        if (data.type === 'segment') {
-            const segment = data;
-            me.onSegment(segment)
-        }
-    } 
-
-    this.stream.on('data',onData)
+    this.stream.on('data',(data) => this.onData(data))
 
     .on('end', () => {
         console.log(`Done with variant ${this.variant.id}`);
@@ -32,13 +24,25 @@ function VariantDownloader(variant) {
     .on('error', err => {
         this.onError(err)
     });
+    //setTimeout(() => this.stop(),2000)
 }
 
-VariantDownloader.prototype.stop = async function()
+VariantDownloader.prototype.stop = function()
 {
-    this.stream.removeListener("data",onData)
-    console.log(this.stream)
-     this.stream._cancelAll()
+    this.stream.removeListener("data",this.onData)
+    console.log("ending stream")
+    this.stream._cancelAll()
+    //this.stream.pause()
+}
+
+VariantDownloader.prototype.onData = function(data)
+{
+    if (data.type === 'playlist') {
+    console.log(`${data.isMasterPlaylist ? 'Master' : 'Media'} playlist`);
+    }
+    if (data.type === 'segment') {
+        this.onSegment(data)
+    }
 }
 
 VariantDownloader.prototype.onSegment = async function(segment) {
