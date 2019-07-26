@@ -7,7 +7,8 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY ./*/package*.json ./
+COPY TimeShift/package*.json ./TimeShift/
+COPY StreamDownloader/package*.json ./StreamDownloader/
 
 
 RUN npm i -g sequelize-cli
@@ -22,6 +23,8 @@ RUN npm install --only=production
 # RUN npm install --only=production
 RUN apt update && apt install -y postgresql-client
 # Bundle app source
+
+WORKDIR /usr/src/app
 COPY . .
 
 CMD ["./run.sh"]

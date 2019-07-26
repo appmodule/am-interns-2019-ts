@@ -18,6 +18,13 @@ module.exports=
     "operatorsAliases": false
   },
   "production": {
+      username: 'postgres',
+      password: process.env.POSTGRES_PASSWORD,
+      database: 'postgres',
+      host: 'db',
+      dialect: 'postgres'
+  },
+  "production1": {
     "username": "root",
     "password": process.env.DATABASE_PASSWORD,
     "database": "timeshift",

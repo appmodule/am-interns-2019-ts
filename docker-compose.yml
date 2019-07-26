@@ -11,7 +11,7 @@ services:
       NODE_ENV: production
     ports: 
       - ${SERVER_PORT_NODE}:${SERVER_PORT}
-    restart: unless-stopped
+    restart: "no"
     depends_on:
       - db
 
