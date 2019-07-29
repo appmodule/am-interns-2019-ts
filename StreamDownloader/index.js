@@ -9,7 +9,8 @@ const updateVariants = require('./hls/ChannelDownloader.js').updateVariants
 const mapOfChannels = new Map()
 
 async function main() {
-    ensureExistsDir("files")
+    console.log(process.env.TS_FILES)
+    ensureExistsDir(process.env.TS_FILES+"files")
     const channels = await getChannels()
 
     for (let channel of channels) {

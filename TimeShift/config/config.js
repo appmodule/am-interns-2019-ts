@@ -20,7 +20,7 @@ module.exports=
   "production": {
       username: 'postgres',
       password: process.env.POSTGRES_PASSWORD,
-      database: 'postgres',
+      database: 'timeshift',
       host: 'db',
       dialect: 'postgres'
   },

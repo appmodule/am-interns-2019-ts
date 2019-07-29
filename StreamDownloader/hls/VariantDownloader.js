@@ -8,12 +8,11 @@ const lostChunks = require('../../TimeShift/database/variant.js').getNumberOfLos
 const addLostChunk = require('../database/lost_chunks.js').addChunk
 let mailer = require('../../TimeShift/mailer.js')
 
-function VariantDownloader(variant, saved_chunk_emitter) {
+function VariantDownloader(variant) {
     this.variant = variant
-    this.saved_chunk_emitter = saved_chunk_emitter
 
     this.dir = `files/${this.variant.id}/`
-    ensureExistsDir(this.dir)
+    ensureExistsDir(process.env.TS_FILES+this.dir)
     
     this.stream = createReadStream(variant.uri, {concurrency: 7}); //concurrency?
 
@@ -54,7 +53,7 @@ VariantDownloader.prototype.onSegment = async function(segment) {
     let filename = segment.mediaSequenceNumber + extension
     let path = this.dir + filename
 
-    let writeStream = fs.createWriteStream(path)
+    let writeStream = fs.createWriteStream(process.env.TS_FILES+path)
     writeStream.on('error',this.onError)
     writeStream.write(segment.data)
 
@@ -71,7 +70,6 @@ VariantDownloader.prototype.onSegment = async function(segment) {
         const incrementNumberSucceded = require('../database/channels.js').incrementNumberSucceded
         await incrementNumberSucceded(this.variant.channel_id)
         await addChunk(chunk)
-        this.saved_chunk_emitter.emit('saved_chunk')
     } catch (err) {
         console.log(err)
     }

@@ -22,7 +22,7 @@ function setHeaders (res, path) {
   res.setHeader('Access-Control-Allow-Origin','*')
 }
 
-app.use(serveStatic("../StreamDownloader", {'setHeaders':setHeaders}))
+app.use(serveStatic(process.env.TS_FILES, {'setHeaders':setHeaders}))
 
 SwaggerConnect.create(config, function(err, swaggerConnect) {
   if (err) { throw err; }

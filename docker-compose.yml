@@ -2,18 +2,35 @@ version: "3"
 
 services:
 
-  app:
+  timeshift:
     build:
       context: ./
+      dockerfile: Dockerfile_TimeShift
     env_file:
       - .env
     environment:
       NODE_ENV: production
     ports: 
       - ${SERVER_PORT_NODE}:${SERVER_PORT}
-    restart: "no"
+    restart: "always"
     depends_on:
       - db
+    volumes:
+      - timeshift_files:${TS_FILES}
+
+  streamdownloader:
+    build:
+      context: ./
+      dockerfile: Dockerfile_StreamDownloader
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+    restart: "always"
+    depends_on:
+      - db
+    volumes:
+      - timeshift_files:${TS_FILES}
 
   db:
     image: postgres
@@ -21,7 +38,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./db_data:${PGDATA}
+      - timeshift_db_data:${PGDATA}
 
   adminer:
     image: adminer
@@ -30,3 +47,6 @@ services:
       - ${ADMINER_PORT_NODE}:8080
     depends_on:
       - db
+volumes:
+  timeshift_db_data:
+  timeshift_files:
