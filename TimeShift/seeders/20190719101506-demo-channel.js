@@ -10,6 +10,7 @@ module.exports = {
         number_succeded: 0,
         hours_to_record: 72,
         name: 'example_a',
+        disabled: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -20,6 +21,7 @@ module.exports = {
         number_succeded: 0,
         hours_to_record: 72,
         name: 'example_b',
+        disabled: false,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -30,6 +32,7 @@ module.exports = {
         number_succeded: 0,
         hours_to_record: 72,
         name: 'example_c',
+        disabled: false,
         createdAt: new Date(),
         updatedAt: new Date()
       }

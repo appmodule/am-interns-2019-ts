@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     number_failed: DataTypes.INTEGER,
     number_succeded: DataTypes.INTEGER,
     hours_to_record: DataTypes.INTEGER,
-    name: DataTypes.TEXT
+    name: DataTypes.TEXT,
+    disabled: DataType.BOOLEAN
   }, {});
   channel.associate = function(models) {
     channel.hasMany(models.variant, {foreignKey : "channel_id",onDelete:'CASCADE'})
