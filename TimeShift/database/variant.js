@@ -1,7 +1,6 @@
-const channel = require('../models').channel
-const variant = require('../models').variant
-const saved_chunk = require('../models').saved_chunk
-const lost_chunk = require('../models').lost_chunk
+'use strict'
+const variant = require('../db/models').variant
+const lost_chunk = require('../db/models').lost_chunk
 
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op

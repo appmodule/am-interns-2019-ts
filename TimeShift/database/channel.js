@@ -1,8 +1,5 @@
-const channel = require('../models').channel
-const variant = require('../models').variant
-const saved_chunk = require('../models').saved_chunk
-
 const Sequelize = require('sequelize')
+const channel = require('../db/models').channel
 const Op = Sequelize.Op
 
 module.exports=

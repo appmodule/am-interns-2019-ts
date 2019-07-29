@@ -7,7 +7,7 @@ async function getChannels() {
 }
 
 const db_variant = require('../../TimeShift/database/variant.js')
-const chunk = require('../../TimeShift/models').saved_chunk
+const chunk = require('../db/models').saved_chunk
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 

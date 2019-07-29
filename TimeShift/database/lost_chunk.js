@@ -1,5 +1,5 @@
 'use strict'
-const lost_chunk = require('../models').lost_chunk
+const lost_chunk = require('../db/models').lost_chunk
 
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op

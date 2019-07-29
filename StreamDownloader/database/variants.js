@@ -1,6 +1,6 @@
 'use strict';
 
-const variant = require('../../TimeShift/models').variant
+const variant = require('../db/models').variant
 
 async function linkToDatabase(variants) {
     let vs = []
