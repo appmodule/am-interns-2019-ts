@@ -32,14 +32,15 @@ async function getVariants(channel_uri, channel_id) {
 
 const mapOfVariants = new Map()
 
-async function channelDownloader(channel_uri, channel_id) {
+async function channelDownloader(channel_uri, channel_id, saved_chunk_event_emitter) {
     let vars = await getVariants(channel_uri, channel_id)
+    console.log(channel_uri, channel_id)
     vars = await variants.linkToDatabase(vars)
 
     for (let variant of vars) {
         if(!variant.disabled)
         {
-            let vd = new VariantDownloader(variant)
+            let vd = new VariantDownloader(variant, saved_chunk_event_emitter)
             mapOfVariants.set(variant.id,vd)
         }
     }

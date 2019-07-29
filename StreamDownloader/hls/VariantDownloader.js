@@ -8,8 +8,9 @@ const lostChunks = require('../../TimeShift/database/variant.js').getNumberOfLos
 const addLostChunk = require('../database/lost_chunks.js').addChunk
 let mailer = require('../../TimeShift/mailer.js')
 
-function VariantDownloader(variant) {
+function VariantDownloader(variant, saved_chunk_emitter) {
     this.variant = variant
+    this.saved_chunk_emitter = saved_chunk_emitter
 
     this.dir = `files/${this.variant.id}/`
     ensureExistsDir(this.dir)
@@ -70,6 +71,7 @@ VariantDownloader.prototype.onSegment = async function(segment) {
         const incrementNumberSucceded = require('../database/channels.js').incrementNumberSucceded
         await incrementNumberSucceded(this.variant.channel_id)
         await addChunk(chunk)
+        this.saved_chunk_emitter.emit('saved_chunk')
     } catch (err) {
         console.log(err)
     }

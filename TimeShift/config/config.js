@@ -10,11 +10,11 @@ module.exports=
     "operatorsAliases": false
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
+    "username": process.env.PGUSER,
+    "password": process.env.PGPASSWORD,
+    "database": "test_timeshift",
+    "host": process.env.PGHOSTADDR,
+    "dialect": "postgres",
     "operatorsAliases": false
   },
   "production": {
