@@ -25,6 +25,10 @@ async function createChannel(channel)
 {
     return channel.createChannel(channel)
 }
+async function getChannel(id)
+{
+    return channel.getChannel(id)
+}
 
 async function removeOldChunks() {
     try {
@@ -67,3 +71,4 @@ module.exports.getChannels = getChannels
 module.exports.removeOldChunks =  removeOldChunks
 module.exports.incrementNumberSucceded = incrementNumberSucceded
 module.exports.incrementNumberFailed = incrementNumberFailed
+module.exports.getChannel = getChannel

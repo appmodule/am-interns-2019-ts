@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const {URL} = require('url')
 
 const variants = require('../database/variants.js')
+const getChannel = require('../database/channels.js').getChannel
 const {VariantDownloader} = require('./VariantDownloader.js')
 
 function mergeUri(baseUri, addedUri) {
@@ -45,8 +46,35 @@ async function channelDownloader(channel_uri, channel_id) {
         }
     }
 }
+async function stopChannelDownloading(channel_uri, channel_id) {
+    let vars = await getVariants(channel_uri, channel_id)
+    console.log(channel_uri, channel_id)
+    vars = await variants.linkToDatabase(vars)
+    for (let variant of vars) {
+        let vd = mapOfVariants.get(variant.id)
+        //console.log(vd)
+        vd.stop()
+        mapOfVariants.delete(variant.id)
+    }
+}
+async function updateChannel(id)
+{
+    try{
+        //console.log(getChannel)
+        let c = await getChannel(id)
+        //console.log(c)
+        await stopChannelDownloading(c.uri,id)
+    }
+    catch(err)
+    {
+        console.error(err)
+    }
+    //console.log(c)
+}
+
 async function updateVariants(channel_uri,channel_id)
 {
+
     let vars = await getVariants(channel_uri, channel_id)
     vars = await variants.linkToDatabase(vars)
     for(let variant of vars)
@@ -69,4 +97,5 @@ async function updateVariants(channel_uri,channel_id)
 module.exports = {
     channelDownloader,
     updateVariants,
+    updateChannel
 }
