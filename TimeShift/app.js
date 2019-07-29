@@ -30,7 +30,7 @@ SwaggerConnect.create(config, function(err, swaggerConnect) {
   // install middleware
   swaggerConnect.register(app);
 
-  let port = process.env.PORT || 10010;
+  let port = process.env.SERVER_PORT || 10010;
   app.listen(port);
 
   if (swaggerConnect.runner.swagger.paths['/hello']) {
