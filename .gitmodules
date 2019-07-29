@@ -1,0 +1,6 @@
+[submodule "StreamDownloader/db"]
+	path = StreamDownloader/db
+	url = https://github.com/appmodule/am-interns-2019-ts-db
+[submodule "TimeShift/db"]
+	path = TimeShift/db
+	url = https://github.com/appmodule/am-interns-2019-ts-db
