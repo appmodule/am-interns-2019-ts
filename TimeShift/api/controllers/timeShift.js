@@ -98,8 +98,17 @@ module.exports=
         .then(retv=>
             {
                 let arr = retv.map(retv=>retv.dataValues.media_sequence)
+                let newArr = []
+                let j=0
+
+                for (let i=retv.length-1;i>=0;i--)
+                {
+                     newArr[j] = retv[i]
+                     j++
+                }
                 stringToReturn+="#EXT-X-MEDIA-SEQUENCE:"+arr[arr.length-1]+"\r\n"
-                return retv
+                console.log(newArr[0].duration)
+                return newArr
             })
         .then(retval=>
         {
