@@ -55,8 +55,8 @@ async function removeOldChunks() {
                 const fs = require('fs')
                 for (let c of to_delete) {
                     let path = c.dataValues.filepath
-                    if (fs.existsSync(path)) {
-                        fs.unlinkSync(path)
+                    if (fs.existsSync(process.env.TS_FILES+path)) {
+                        fs.unlinkSync(process.env.TS_FILES+path)
                         console.log("Deleting file "+ path)
                     }
                 }

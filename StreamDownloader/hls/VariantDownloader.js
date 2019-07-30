@@ -8,6 +8,8 @@ const lostChunks = require('../../TimeShift/database/variant.js').getNumberOfLos
 const addLostChunk = require('../database/lost_chunks.js').addChunk
 let mailer = require('../../TimeShift/mailer.js')
 
+const chunk = require('../db/models').saved_chunk
+
 function VariantDownloader(variant) {
     this.variant = variant
 
@@ -32,7 +34,7 @@ VariantDownloader.prototype.stop = function()
     this.stream.removeListener("data",this.onData)
     console.log("ending stream")
     this.stream._cancelAll()
-    //this.stream.pause()
+    this._deleteVariantFiles()
 }
 
 VariantDownloader.prototype.onData = function(data)
@@ -95,4 +97,24 @@ VariantDownloader.prototype.onError = async function(err) {
     }
 }
 
-module.exports = { VariantDownloader }
+VariantDownloader.prototype._deleteVariantFiles = async function() {
+    let where = {
+        where : {
+            variant_id : this.variant.id
+        }
+    }
+    let to_delete = await chunk.findAll(where)            
+    await chunk.destroy(where)
+    
+    const fs = require('fs')
+    for (let c of to_delete) {
+        let path = process.env.TS_FILES + c.dataValues.filepath 
+        if (fs.existsSync(path)) {
+            fs.unlinkSync(path)
+        }
+    }
+    let dirpath = process.env.TS_FILES + "files/" + this.variant.id 
+    fs.rmdirSync(dirpath)
+}
+
+module.exports =  VariantDownloader 
