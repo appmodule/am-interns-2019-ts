@@ -56,6 +56,7 @@ VariantDownloader.prototype.onSegment = async function(segment) {
     let writeStream = fs.createWriteStream(process.env.TS_FILES+path)
     writeStream.on('error',this.onError)
     writeStream.write(segment.data)
+    writeStream.end()
 
     var chunk = {
         variant_id: this.variant.id,
