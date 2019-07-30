@@ -10,6 +10,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "dotenv": "^8.0.0",
+    "fs-extra": "^8.1.0",
     "hls-parser": "^0.4.4",
     "hlx-file-reader": "github:zdule/hlx-file-reader#fix-cache",
     "node-fetch": "^2.6.0",

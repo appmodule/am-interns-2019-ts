@@ -7,6 +7,8 @@ const {URL} = require('url')
 const variants = require('../database/variants.js')
 const getChannel = require('../database/channels.js').getChannel
 const {VariantDownloader} = require('./VariantDownloader.js')
+const chunk = require('../db/models').saved_chunk
+const variant = require('../db/models').variant
 
 function mergeUri(baseUri, addedUri) {
     return new URL(addedUri, baseUri).toString()
@@ -54,6 +56,7 @@ async function stopChannelDownloading(channel_uri, channel_id) {
         let vd = mapOfVariants.get(variant.id)
         vd.stop()
         mapOfVariants.delete(variant.id)
+        deleteVariantsOfChannel(channel_id)
     }
 }
 async function restartDownloading(channel_uri,channel_id)
@@ -99,12 +102,64 @@ async function updateVariants(channel_uri,channel_id)
             let vd = mapOfVariants.get(variant.id)
             vd.stop()
             mapOfVariants.delete(variant.id)
+            deleteChunksOfVariant(variant.id)
         }
     }
 }
 
+async function deleteChunksOfVariant(id)
+{
+    let where = {
+        where : {
+            variant_id : id
+        }
+    }
+    let to_delete = await chunk.findAll(where)            
+    let num_deleted = await chunk.destroy(where)
+    
+    const fs = require('fs')
+    for (let c of to_delete) {
+        let path = "/" + c.dataValues.filepath 
+        //console.log(path)
+        if (fs.existsSync(path)) {
+            fs.unlinkSync(path)
+            
+            }
+            
+    }
+    let dirpath = "/files/" + id 
+    fs.rmdirSync(dirpath)
+    //const fse = require('fs-extra')
+    //fse.removeSync(dirpath)
+}
+async function deleteVariantsOfChannel(id)
+{
+    let where = {
+        where : {
+            channel_id : id
+        }
+    }
+    let to_delete = await variant.findAll(where)            
+    //let num_deleted = await chunk.destroy(where)
+    
+    const fs = require('fs')
+    for (let v of to_delete) {
+        deleteChunksOfVariant(v.dataValues.id)
+    }
+}
+
+
 module.exports = {
     channelDownloader,
     updateVariants,
-    updateChannel
+    updateChannel,
+    deleteChunksOfVariant,
+    deleteVariantsOfChannel
 }
+
+async function main()
+{
+    await deleteVariantsOfChannel(24)
+}
+
+main()
