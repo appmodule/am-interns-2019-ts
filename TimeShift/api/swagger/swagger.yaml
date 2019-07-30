@@ -23,7 +23,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns event playlist
       # used as the method name of the controller
       operationId: createEventPlaylist
       parameters:
@@ -39,7 +39,7 @@ paths:
           type: integer
         - name: duration
           in: query
-          description: requested recording end point
+          description: requested video duration 
           required: false
           type: integer
       responses:
@@ -80,7 +80,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns list of variants of requested channel
       # used as the method name of the controller
       operationId: getChannelFromTo
       parameters:
@@ -113,7 +113,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns playlist for selected variant
       # used as the method name of the controller
       operationId: getSelectedVariantFromTo
       parameters:
@@ -129,7 +129,7 @@ paths:
           type: integer
         - name: duration
           in: query
-          description: requested recording end point
+          description: requested video duration
           required: false
           type: integer
       responses:
@@ -169,7 +169,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
-      description: Returns live stream playlist
+      description: Returns list of channels for live streaming
       # used as the method name of the controller
       operationId: getChannelsForLiveStreaming
       parameters:
@@ -275,7 +275,7 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: saved_chunks
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns specified chunk to the caller
       # used as the method name of the controller
       operationId: getChunk
       parameters:
@@ -348,7 +348,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
   /variants:
     x-swagger-router-controller: variants
     get:
@@ -375,7 +374,7 @@ paths:
       parameters:
         - name: channel_id
           in: formData
-          description: The id of the channel
+          description: The id of the channel this variant belongs to
           required: true
           type: integer
         - name: uri
