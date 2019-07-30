@@ -18,11 +18,24 @@ app.use(function(req, res, next){
 });
 
 function setHeaders (res, path) {
-	console.log('hi')
   res.setHeader('Access-Control-Allow-Origin','*')
 }
-
 app.use(serveStatic(process.env.TS_FILES, {'setHeaders':setHeaders}))
+
+const swaggerUiAssetPath = require("swagger-ui-dist").getAbsoluteFSPath()
+const fs = require('fs')
+const indexContent = fs.readFileSync(`${swaggerUiAssetPath }/index.html`)
+  .toString()
+  .replace("https://petstore.swagger.io/v2/swagger.json", "swagger.yaml")
+app.use("/swagger", (req, res, next) => {
+  if (req.url === '/')
+    res.end(indexContent)
+  else
+    next()
+})
+app.use("/swagger/index.html", (req, res) => res.end(indexContent))
+app.use('/swagger/', serveStatic(swaggerUiAssetPath))
+app.use('/swagger/swagger.yaml', serveStatic('api/swagger/swagger.yaml'))
 
 SwaggerConnect.create(config, function(err, swaggerConnect) {
   if (err) { throw err; }
