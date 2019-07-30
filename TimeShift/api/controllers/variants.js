@@ -1,7 +1,5 @@
-
 'use strict';
 
-const db = require('../database')
 const variants_db = require('../../database/variant.js')
 
 module.exports = {

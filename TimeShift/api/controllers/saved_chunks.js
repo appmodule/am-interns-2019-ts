@@ -1,7 +1,5 @@
 //'use strict';
 
-const util = require('util');
-const db = require('../database')
 const saved_chunks_db = require('../../database/saved_chunk.js')
 
 module.exports = {
