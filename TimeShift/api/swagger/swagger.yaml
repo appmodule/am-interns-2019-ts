@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: Hello World App
 # during dev, should point to your local machine
-#host: localhost:10010
+host: localhost:10010
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -228,6 +228,29 @@ paths:
           schema: {}
          
         # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: Control whether the channel is disabled
+      # used as the method name of the controller
+      operationId: updateChannelFlag
+      parameters:
+        - name: id
+          in: query
+          description: The id of the channel 
+          required: true
+          type: integer
+        - name: disabled
+          in: formData
+          description: If true the channel with all its variants will be disabled. (not downloaded)
+          required: false
+          type: boolean
+      responses:
+        "200":
+          description: Success
+          schema: {}
         default:
           description: Error
           schema:

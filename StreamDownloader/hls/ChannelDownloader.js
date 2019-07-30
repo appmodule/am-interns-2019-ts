@@ -48,30 +48,39 @@ async function channelDownloader(channel_uri, channel_id) {
 }
 async function stopChannelDownloading(channel_uri, channel_id) {
     let vars = await getVariants(channel_uri, channel_id)
-    console.log(channel_uri, channel_id)
+    //console.log(channel_uri, channel_id)
     vars = await variants.linkToDatabase(vars)
     for (let variant of vars) {
         let vd = mapOfVariants.get(variant.id)
-        //console.log(vd)
         vd.stop()
         mapOfVariants.delete(variant.id)
     }
 }
-async function updateChannel(id)
+async function restartDownloading(channel_uri,channel_id)
+{
+    let vars = await getVariants(channel_uri, channel_id)
+    console.log(channel_uri, channel_id)
+    vars = await variants.linkToDatabase(vars)
+    for (let variant of vars) {
+        let vd = new VariantDownloader(variant)
+        mapOfVariants.set(variant.id,vd)
+    }
+}
+async function updateChannel(id,newValue)
 {
     try{
-        //console.log(getChannel)
         let c = await getChannel(id)
-        //console.log(c)
-        await stopChannelDownloading(c.uri,id)
+        if (newValue === true)
+            await stopChannelDownloading(c.uri,id)
+        else
+            await restartDownloading(c.uri,id)
     }
     catch(err)
     {
         console.error(err)
     }
-    //console.log(c)
-}
-
+    
+//updateChannel(24,false)
 async function updateVariants(channel_uri,channel_id)
 {
 

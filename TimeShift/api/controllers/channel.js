@@ -2,7 +2,9 @@
 module.exports = {
   getChannel: getChannel,
   addChannel: addChannel,
-  deleteChannel: deleteChannel
+  deleteChannel: deleteChannel,
+  updateChannelFlag: updateChannelFlag
+
 };
 
 const channels_db = require('../../database/channel.js')
@@ -49,4 +51,15 @@ function deleteChannel(req, res, next)
   channels_db.deleteChannel(id)
     .then(value => res.json(value))
     .catch(err => next(err))
+}
+
+function updateChannelFlag(req, httpRes, next) {
+  var params = req.swagger.params
+  var id = params.id.value || 0
+  var disabled = params.disabled.value || false
+  console.log("Kontroler")
+  channels_db.updateChannelFlag(id,disabled)
+  .then(res => httpRes.json(res))
+  .catch(err => next(err))
+  
 }

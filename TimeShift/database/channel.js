@@ -25,6 +25,12 @@ module.exports=
           })
         return res.dataValues;
     },
+    updateChannelFlag(id,disabled)
+    {
+        console.log(id)
+        console.log(disabled)
+        return channel.update({disabled:disabled},{where : {id:id}})
+    },
 
     updateChannel(channelId,numOfLost,numOfSaved)
     {
