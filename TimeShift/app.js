@@ -22,7 +22,7 @@ function setHeaders (res, path) {
 }
 app.use(serveStatic(process.env.TS_FILES, {'setHeaders':setHeaders}))
 
-/*const swaggerUiAssetPath = require("swagger-ui-dist").getAbsoluteFSPath()
+const swaggerUiAssetPath = require("swagger-ui-dist").getAbsoluteFSPath()
 const fs = require('fs')
 const indexContent = fs.readFileSync(`${swaggerUiAssetPath }/index.html`)
   .toString()
@@ -35,7 +35,7 @@ app.use("/swagger", (req, res, next) => {
 })
 app.use("/swagger/index.html", (req, res) => res.end(indexContent))
 app.use('/swagger/', serveStatic(swaggerUiAssetPath))
-app.use('/swagger/swagger.yaml', serveStatic('api/swagger/swagger.yaml'))*/
+app.use('/swagger/swagger.yaml', serveStatic('api/swagger/swagger.yaml'))
 
 SwaggerConnect.create(config, function(err, swaggerConnect) {
   if (err) { throw err; }
