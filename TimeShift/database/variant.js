@@ -64,16 +64,9 @@ module.exports =
 {
     let db = require('./variant.js')
     //let c= await db.getNumberOfLostChunks(2)
-    for(var i=2;i<5;i++)
-    {
-        db.updateVariant(i,true)
-    }
-    for(var i=16;i<25;i++)
-    {
-        db.updateVariant(i,true)
-    }
+    let mailer = require("../mailer.js").send
     
-    console.log(c)
+    mailer("dragana.stojnev@gmail.com","greske","bajsdasd")
 }
 
 main1()*/
