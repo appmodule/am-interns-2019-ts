@@ -20,63 +20,6 @@ produces:
   - application/json
   - text/plain
 paths:
-  /timeShift/eventPlaylist:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: timeShift
-    get:
-      description: Returns event playlist
-      # used as the method name of the controller
-      operationId: createEventPlaylist
-      parameters:
-        - name: variantId
-          in: query
-          description: Id of wanted variant
-          required: false
-          type: string
-        - name: start
-          in: query
-          description: requested recording start point
-          required: false
-          type: integer
-        - name: duration
-          in: query
-          description: requested video duration 
-          required: false
-          type: integer
-      responses:
-        "200":
-          description: Success
-          schema:
-            type: string
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /play/timeshift/{name}.m3u8:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
@@ -98,6 +41,39 @@ paths:
         - name: duration
           in: query
           description: Time for downloading
+          required: false
+          type: integer
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /timeShift/eventPlaylist:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: timeShift
+    get:
+      description: Returns event playlist
+      # used as the method name of the controller
+      operationId: createEventPlaylist
+      parameters:
+        - name: variantId
+          in: query
+          description: Id of wanted variant
+          required: false
+          type: string
+        - name: start
+          in: query
+          description: requested recording start point
+          required: false
+          type: integer
+        - name: duration
+          in: query
+          description: requested video duration 
           required: false
           type: integer
       responses:
@@ -143,13 +119,13 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /timeShift/liveStreamPlaylist:
+  /timeShift/getChannelsForLiveStreaming:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
-      description: Returns live stream playlist
+      description: Returns list of channels for live streaming
       # used as the method name of the controller
-      operationId: createMediaPlaylistForLiveStreaming
+      operationId: getChannelsForLiveStreaming
       parameters:
         - name: variantId
           in: query
@@ -166,13 +142,13 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /timeShift/getChannelsForLiveStreaming:
+  /timeShift/liveStreamPlaylist:
     # binds a127 app logic to a route
     x-swagger-router-controller: timeShift
     get:
-      description: Returns list of channels for live streaming
+      description: Returns live stream playlist
       # used as the method name of the controller
-      operationId: getChannelsForLiveStreaming
+      operationId: createMediaPlaylistForLiveStreaming
       parameters:
         - name: variantId
           in: query
@@ -213,26 +189,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    delete:
-      description: Delete channel with specified id
-      # used as the method name of the controller
-      operationId: deleteChannel
-      parameters:
-        - name: id
-          in: query
-          description: Id of the channel we are trying to delete
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema: {}
-         
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
     put:
       description: Control whether the channel is disabled
       # used as the method name of the controller
@@ -252,6 +208,26 @@ paths:
         "200":
           description: Success
           schema: {}
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: Delete channel with specified id
+      # used as the method name of the controller
+      operationId: deleteChannel
+      parameters:
+        - name: id
+          in: query
+          description: Id of the channel we are trying to delete
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+         
+        # responses may fall through to errors
         default:
           description: Error
           schema:
@@ -449,6 +425,30 @@ paths:
             $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 # complex objects have schema definitions
 definitions:
   HelloWorldResponse:
