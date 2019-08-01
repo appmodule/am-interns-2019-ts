@@ -10,8 +10,12 @@ const removeOldChunks = require('./database/channels.js').removeOldChunks
 const tenMinutes = 10*60*1000
 setInterval(removeOldChunks, tenMinutes)
 
-const minut = 60*1000
-function reload() {
-    downloader.reloadFromDatabase()
-}
-setInterval(reload, minut)
+const http = require('http');
+const server = http.createServer((req, res) => {
+    if (req.url == '/reload') {
+        downloader.reloadFromDatabase()
+    }
+    res.end("reload triggered")
+
+});
+server.listen(process.env.STREAM_DOWNLOADER_PORT_NODE)
