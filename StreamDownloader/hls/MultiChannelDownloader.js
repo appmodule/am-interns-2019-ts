@@ -11,8 +11,12 @@ class MultiChannelDownloader {
     }
 
     async reloadFromDatabase() {
-        const channels = await getChannels()
-        this._syncDownloaders(channels)
+        try {
+            const channels = await getChannels()
+            this._syncDownloaders(channels)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     _syncDownloaders(channels) {
@@ -24,7 +28,7 @@ class MultiChannelDownloader {
             if (!channel.disabled) {
                 if (!this.channelDownloaders.has(channel.uri)) {
                     const cd = new ChannelDownloader(channel)
-                    cd.reloadFromDatabase()
+                    cd.reloadFromDatabase().catch(err => console.error(err))
                     this.channelDownloaders.set(channel.uri, {
                         channelDownloader: cd,
                         marked: "new",
@@ -42,7 +46,7 @@ class MultiChannelDownloader {
                 v.channelDownloader.stop()
                 map.delete(k)
             } else if (v.marked == "seen") {
-                v.channelDownloader.reloadFromDatabase()
+                v.channelDownloader.reloadFromDatabase().catch(err => console.error(err))
             }
         })
     }

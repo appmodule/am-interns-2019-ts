@@ -1,8 +1,8 @@
 'use strict';
 
-const {parse} = require('hls-parser');
+const { parse } = require('hls-parser');
 const fetch = require('node-fetch');
-const {URL} = require('url')
+const { URL } = require('url')
 
 const variants = require('../database/variants.js')
 const VariantDownloader = require('./VariantDownloader.js')
@@ -23,27 +23,22 @@ class ChannelDownloader {
     }
 
     async _getVariants() {
-        try{
-            const playlist_text = await fetch(this.channel.uri).then(rsp => rsp.text())
-            const parsed_playlist = parse(playlist_text)
-            let vars = parsed_playlist.variants
-            vars = vars.map((variant) => {
-                return { 
-                    channel_id: this.channel.id,
-                    uri : mergeUri(this.channel.uri, variant.uri),
-                    bandwidth : variant.bandwidth,
-                    codecs: variant.codecs,
-                }
-            })
-            return await variants.linkToDatabase(vars)
-        }  catch(e) {
-            console.log(e.message)
-            return []
-        }
+        const playlist_text = await fetch(this.channel.uri).then(rsp => rsp.text())
+        const parsed_playlist = parse(playlist_text)
+        let vars = parsed_playlist.variants
+        vars = vars.map((variant) => {
+            return {
+                channel_id: this.channel.id,
+                uri: mergeUri(this.channel.uri, variant.uri),
+                bandwidth: variant.bandwidth,
+                codecs: variant.codecs,
+            }
+        })
+        return await variants.linkToDatabase(vars)
     }
 
     _syncDownloaders(vars) {
-        this.variantDownloaders.forEach((v,k,map) => {
+        this.variantDownloaders.forEach((v, k, map) => {
             v.marked = "unmarked"
             map[k] = v
         })
@@ -62,7 +57,7 @@ class ChannelDownloader {
                 }
             }
         }
-        this.variantDownloaders.forEach((v,k,map) => {
+        this.variantDownloaders.forEach((v, k, map) => {
             if (v.marked === 'unmarked') {
                 v.variantDownloader.stop()
                 map.delete(k)

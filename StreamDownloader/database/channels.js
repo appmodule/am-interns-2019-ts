@@ -1,7 +1,7 @@
 'use strict';
 const channel = require('../../TimeShift/database/channel.js')
 
-async function getChannels() {
+function getChannels() {
     
     return channel.getChannels()
 }
@@ -11,21 +11,21 @@ const chunk = require('../db/models').saved_chunk
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
-async function incrementNumberSucceded(channelId)
+function incrementNumberSucceded(channelId)
 {
     return channel.incrementNumberSucceded(channelId)
 }
 
-async function incrementNumberFailed(channelId)
+function incrementNumberFailed(channelId)
 {
     return channel.incrementNumberFailed(channelId)
 }
 
-async function createChannel(channel)
+function createChannel(channel)
 {
     return channel.createChannel(channel)
 }
-async function getChannel(id)
+function getChannel(id)
 {
     return channel.getChannel(id)
 }
