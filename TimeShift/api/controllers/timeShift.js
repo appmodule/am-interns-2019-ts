@@ -39,7 +39,7 @@ module.exports=
             }
             ); return stringToReturn } )  
             .then(str=>{
-                str+="#EXT-X-ENDLIST"
+                // str+="#EXT-X-ENDLIST"
                 res1.end(str,'utf8')
             }) 
         }
