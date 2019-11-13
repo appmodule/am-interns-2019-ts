@@ -1,6 +1,6 @@
 'use strict';
 
-require('dotenv').config()
+// require('dotenv').config()
 
 let SwaggerConnect = require('swagger-connect');
 let app = require('connect')();
