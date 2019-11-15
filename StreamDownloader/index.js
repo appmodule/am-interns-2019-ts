@@ -18,4 +18,4 @@ const server = http.createServer((req, res) => {
     res.end("reload triggered")
 
 });
-server.listen(process.env.STREAM_DOWNLOADER_PORT_NODE)
+server.listen(process.env.STREAM_DOWNLOADER_PORT)
