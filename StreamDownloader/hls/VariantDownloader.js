@@ -17,7 +17,6 @@ function VariantDownloader(variant) {
     ensureExistsDir(process.env.TS_FILES+this.dir)
     
     this.stream = createReadStream(variant.uri, {concurrency: 7}); //concurrency?
-
     this.stream.on('data',(data) => this.onData(data))
 
     .on('end', () => {
@@ -95,6 +94,7 @@ VariantDownloader.prototype.onError = async function(err) {
     {
         mailer.send('appModule123@gmail.com','Lost chunks','Number of lost chunks is reached 10')
     }
+    setTimeout(() => new VariantDownloader(this.variant), 10000)
 }
 
 VariantDownloader.prototype._deleteVariantFiles = async function() {
