@@ -3,6 +3,7 @@ const {createReadStream} = require('hlx-file-reader');
 const fs = require('fs')
 const ensureExistsDir = require('../util.js').ensureExistsDir
 const extname = require('path').extname
+const config = require('../config.js')
 
 const lostChunks = require('../../TimeShift/database/variant.js').getNumberOfLostChunks
 const addLostChunk = require('../database/lost_chunks.js').addChunk
@@ -23,7 +24,7 @@ function VariantDownloader(variant) {
     })
     .on('end', () => {
         console.log(`Done with variant ${this.variant.id}`);
-        setTimeout(() => new VariantDownloader(this.variant), 10000)
+        setTimeout(() => new VariantDownloader(this.variant), config.restartVariantDownloader * 1000)
     })
     .on('error', err => {
         this.onError(err)
@@ -97,7 +98,7 @@ VariantDownloader.prototype.onError = async function(err) {
     {
         mailer.send('appModule123@gmail.com','Lost chunks','Number of lost chunks is reached 10')
     }
-    // setTimeout(() => new VariantDownloader(this.variant), 10000)
+    setTimeout(() => new VariantDownloader(this.variant), config.restartVariantDownloader * 1000)
 }
 
 VariantDownloader.prototype._deleteVariantFiles = async function() {

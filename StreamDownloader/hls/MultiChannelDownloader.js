@@ -3,6 +3,7 @@
 const getChannels = require('../database/channels.js').getChannels
 const ChannelDownloader = require('./ChannelDownloader.js')
 const ensureExistsDir = require('../util.js').ensureExistsDir
+const config = require('../config.js')
 
 class MultiChannelDownloader {
     constructor() {
@@ -24,11 +25,15 @@ class MultiChannelDownloader {
             v.marked = "unmarked"
             map[k] = v
         })
+        var channelsWithError = []
         for (let channel of channels) {
             if (!channel.disabled) {
                 if (!this.channelDownloaders.has(channel.uri)) {
                     const cd = new ChannelDownloader(channel)
-                    cd.reloadFromDatabase().catch(err => console.error(err))
+                    cd.reloadFromDatabase().catch(err => {
+                        console.error('GRESKA  ', err)
+                        channelsWithError.push(channel)
+                    })
                     this.channelDownloaders.set(channel.uri, {
                         channelDownloader: cd,
                         marked: "new",
@@ -49,6 +54,17 @@ class MultiChannelDownloader {
                 v.channelDownloader.reloadFromDatabase().catch(err => console.error(err))
             }
         })
+        setInterval(function () {
+            console.log(channelsWithError)
+            for(let channel of channelsWithError) {
+                channelsWithError.splice(channelsWithError.indexOf(channel), 1)
+                const cd = new ChannelDownloader(channel)
+                cd.reloadFromDatabase().catch(err => {
+                    console.error('GRESKA  ', err)
+                    channelsWithError.push(channel)
+                })
+            }
+        }, config.restartChannelDownloader * 1000)
     }
 }
 

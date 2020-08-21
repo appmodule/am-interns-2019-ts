@@ -9,7 +9,7 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "dotenv": "^8.0.0",
+    "dotenv": "^8.2.0",
     "fs-extra": "^8.1.0",
     "hls-parser": "^0.4.4",
     "hlx-file-reader": "^0.0.9",
