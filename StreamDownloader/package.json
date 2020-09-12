@@ -13,7 +13,7 @@
     "fs-extra": "^8.1.0",
     "hls-parser": "^0.4.4",
     "hlx-file-reader": "^0.0.9",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pg": "^7.11.0",
     "sequelize": "^5.10.2"
   }
